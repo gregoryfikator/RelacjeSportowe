@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RelacjeSportowe.Business.Dtos;
-using RelacjeSportowe.Business.Dtos.Requests;
-using RelacjeSportowe.Business.Dtos.Responses;
 using RelacjeSportowe.Business.Interfaces.Services;
+using RelacjeSportowe.DataAccess.Dtos;
+using RelacjeSportowe.DataAccess.Dtos.Requests;
+using RelacjeSportowe.DataAccess.Dtos.Responses;
 using System.Threading.Tasks;
 
 namespace RelacjeSportowe.Web.Controllers

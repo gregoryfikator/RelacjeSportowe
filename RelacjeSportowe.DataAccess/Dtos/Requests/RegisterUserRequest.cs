@@ -1,7 +1,7 @@
-﻿using RelacjeSportowe.Business.Enums;
+﻿using RelacjeSportowe.DataAccess.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace RelacjeSportowe.Business.Dtos.Requests
+namespace RelacjeSportowe.DataAccess.Dtos.Requests
 {
     public class RegisterUserRequest
     {

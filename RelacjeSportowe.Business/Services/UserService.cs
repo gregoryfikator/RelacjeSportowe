@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RelacjeSportowe.Business.Dtos;
-using RelacjeSportowe.Business.Dtos.Requests;
-using RelacjeSportowe.Business.Dtos.Responses;
-using RelacjeSportowe.Business.Enums;
 using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.Business.Interfaces.Services;
+using RelacjeSportowe.DataAccess.Dtos;
+using RelacjeSportowe.DataAccess.Dtos.Requests;
+using RelacjeSportowe.DataAccess.Dtos.Responses;
+using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
 using System;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,14 +25,36 @@ namespace RelacjeSportowe.Business.Services
             this.jwtSecurityTokenService = jwtSecurityTokenService;
         }
 
+        public async Task<UserDto> ActivateUser()
+        {
+            return await ActivateUser(CurrentUser.Id);
+        }
+
+        public async Task<UserDto> ActivateUser(int id)
+        {
+            var user = await GetByIdAsync(id);
+
+            user.IsActive = true;
+
+            await Context.SaveChangesAsync();
+
+            return Mapper.Map<User, UserDto>(user);
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            await DeleteAsync(id);
+        }
+
         public UserDto GetUser()
         {
             return this.CurrentUser;
         }
 
-        public UserDto GetUser(int id)
+        public async Task<UserDto> GetUser(int id)
         {
-            throw new NotImplementedException();
+            var user = await GetByIdAsync(id);
+            return Mapper.Map<User, UserDto>(user);
         }
 
         public async Task<User> GetUserAsync(string username)
@@ -42,9 +63,10 @@ namespace RelacjeSportowe.Business.Services
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public UserDto GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return await this.Context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<LoginUserResponse> LoginUserAsync(LoginUserRequest loginUserRequest)
@@ -57,7 +79,7 @@ namespace RelacjeSportowe.Business.Services
 
             await this.Context.SaveChangesAsync();
 
-            var accessTokenGenerationDto = new AccessTokenGenerationDto
+            var accessTokenGenerationDto = new AccessTokenGenerationData
             {
                 UserId = user.Id,
                 IdentityProvider = loginUserRequest.IdentityProvider,
@@ -89,7 +111,7 @@ namespace RelacjeSportowe.Business.Services
 
             await Context.SaveChangesAsync();
 
-            var accessTokenGenerationDto = new AccessTokenGenerationDto
+            var accessTokenGenerationDto = new AccessTokenGenerationData
             {
                 UserId = user.Id,
                 IdentityProvider = registerUserRequest.IdentityProvider,

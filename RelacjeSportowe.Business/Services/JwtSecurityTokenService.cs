@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using RelacjeSportowe.Business.Configurations;
-using RelacjeSportowe.Business.Dtos;
-using RelacjeSportowe.Business.Enums;
 using RelacjeSportowe.Business.Extensions;
 using RelacjeSportowe.Business.Interfaces.Services;
+using RelacjeSportowe.DataAccess.Dtos;
+using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,14 +25,15 @@ namespace RelacjeSportowe.Business.Services
             this.jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public string GenerateToken(AccessTokenGenerationDto accessTokenGenerationDto)
+        public string GenerateToken(AccessTokenGenerationData accessTokenGenerationDto)
         {
             var claims = new ClaimsIdentity(
                 new[]
                 {
                     new Claim(Constants.JwtToken.Claims.UserId, accessTokenGenerationDto.UserId.ToString()),
                     new Claim(Constants.JwtToken.Claims.RefreshToken, accessTokenGenerationDto.RefreshToken),
-                    new Claim(Constants.JwtToken.Claims.IdentityProvider, accessTokenGenerationDto.IdentityProvider.ToString())
+                    new Claim(Constants.JwtToken.Claims.IdentityProvider, accessTokenGenerationDto.IdentityProvider.ToString()),
+                    new Claim(ClaimTypes.Role, accessTokenGenerationDto.RoleId.ToString())
                 });
 
             switch (accessTokenGenerationDto.IdentityProvider)

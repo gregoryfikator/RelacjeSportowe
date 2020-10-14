@@ -1,4 +1,4 @@
-﻿namespace RelacjeSportowe.Business.Enums
+﻿namespace RelacjeSportowe.DataAccess.Enums
 {
     public enum IdentityProvider
     {

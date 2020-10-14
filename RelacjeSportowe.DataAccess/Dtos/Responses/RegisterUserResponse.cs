@@ -1,4 +1,4 @@
-﻿namespace RelacjeSportowe.Business.Dtos.Responses
+﻿namespace RelacjeSportowe.DataAccess.Dtos.Responses
 {
     public class RegisterUserResponse
     {

@@ -4,7 +4,7 @@ using System;
 
 namespace RelacjeSportowe.DataAccess.Models
 {
-    public class User : IEntity, IAuditable
+    public class UserHistory : IEntity, IAuditable
     {
         public int Id { get; set; }
 

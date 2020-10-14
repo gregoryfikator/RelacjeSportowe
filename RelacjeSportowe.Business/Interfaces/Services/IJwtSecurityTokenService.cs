@@ -1,11 +1,11 @@
-﻿using RelacjeSportowe.Business.Dtos;
+﻿using RelacjeSportowe.DataAccess.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace RelacjeSportowe.Business.Interfaces.Services
 {
     public interface IJwtSecurityTokenService
     {
-        string GenerateToken(AccessTokenGenerationDto accessTokenGenerationDto);
+        string GenerateToken(AccessTokenGenerationData accessTokenGenerationDto);
 
         string GenerateRefreshToken();
 

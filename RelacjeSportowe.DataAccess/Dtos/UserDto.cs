@@ -1,4 +1,4 @@
-﻿namespace RelacjeSportowe.Business.Dtos
+﻿namespace RelacjeSportowe.DataAccess.Dtos
 {
     public class UserDto
     {
