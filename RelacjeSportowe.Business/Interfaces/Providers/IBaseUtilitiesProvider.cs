@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using RelacjeSportowe.Business.Dtos;
 using RelacjeSportowe.DataAccess.Data;
+using RelacjeSportowe.DataAccess.Models;
 
 namespace RelacjeSportowe.Business.Interfaces.Providers
 {
@@ -8,7 +8,7 @@ namespace RelacjeSportowe.Business.Interfaces.Providers
     {
         AppDbContext Context { get; }
 
-        UserDto CurrentUser { get; }
+        User CurrentUser { get; }
 
         IMapper Mapper { get; }
     }

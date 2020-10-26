@@ -5,10 +5,10 @@ namespace RelacjeSportowe.DataAccess.Interfaces
 {
     public interface IAuditable
     {
-        int ModifiedById { get; set; }
+        int? ModifiedById { get; set; }
 
         User ModifiedBy { get; set; }
 
-        DateTime ModifiationDate { get; set; }
+        DateTime? ModificationDate { get; set; }
     }
 }

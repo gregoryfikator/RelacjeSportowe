@@ -1,1 +1,29 @@
-<p>register works!</p>
+<form class="register-form col-6"
+      [formGroup]="registerFormGroup"
+      (ngSubmit)="onSubmit()">
+
+  <h4>Rejestracja</h4>
+
+  <app-form-input type="email"
+                  controlName="email"
+                  label="Adres email">
+  </app-form-input>
+  <app-form-input type="text"
+                  controlName="username"
+                  label="Nazwa użytkownika">
+  </app-form-input>
+  <app-form-input type="password"
+                  controlName="password"
+                  label="Hasło">
+  </app-form-input>
+  <app-form-input type="password"
+                  controlName="passwordConfirm"
+                  label="Potwierdź hasło">
+  </app-form-input>
+
+  <button class="register-button"
+          type="submit">
+    ZAREJESTRUJ
+  </button>
+  
+</form>

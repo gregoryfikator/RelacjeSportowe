@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RelacjeSportowe.DataAccess.Configurations;
-using RelacjeSportowe.DataAccess.Dtos;
+using RelacjeSportowe.DataAccess.Extensions;
 using RelacjeSportowe.DataAccess.Interfaces;
 using RelacjeSportowe.DataAccess.Models;
 using System;
@@ -19,17 +19,15 @@ namespace RelacjeSportowe.DataAccess.Data
         }
 
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<RoleHistory> RolesHistory { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserHistory> UsersHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserModelConfiguration());
-            modelBuilder.ApplyConfiguration(new UserModelHistoryConfiguration());
 
             modelBuilder.ApplyConfiguration(new RoleModelConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleModelHistoryConfiguration());
+
+            modelBuilder.SeedRolesTable();
         }
 
         public override int SaveChanges()
@@ -44,7 +42,7 @@ namespace RelacjeSportowe.DataAccess.Data
             return base.SaveChanges();
         }
 
-        public async Task<int> SaveChangesAsync(UserDto currentUser)
+        public async Task<int> SaveChangesAsync(User currentUser)
         {
             var auditableChanges = GetAuditableChanges();
 
@@ -64,7 +62,7 @@ namespace RelacjeSportowe.DataAccess.Data
         }
 
         private void SaveAuditInformation(IEnumerable<EntityEntry<IAuditable>> auditableChanges,
-            UserDto currentUser = null)
+            User currentUser = null)
         {
             var username = currentUser != null ? currentUser.Username : Thread.CurrentPrincipal.Identity.Name;
             var userId = currentUser != null ? currentUser.Id : Users.First(user => user.Username == username).Id; 
@@ -80,7 +78,7 @@ namespace RelacjeSportowe.DataAccess.Data
                 else
                 {
                     entity.ModifiedById = userId;
-                    entity.ModifiationDate = DateTime.UtcNow;
+                    entity.ModificationDate = DateTime.UtcNow;
                 }
             }
         }

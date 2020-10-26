@@ -19,18 +19,18 @@ namespace RelacjeSportowe.Web.Controllers
             this.userService = userService;
         }
 
-        [AllowAnonymous]
+        [Authorize("User")]
         [HttpGet("[action]")]
         public UserDto Get()
         {
             return this.userService.GetUser();
         }
 
-        [AllowAnonymous]
-        [HttpGet("[action]/{id}")]
-        public UserDto Get(int id)
+        [Authorize(Policy = "Administrator")]
+        [HttpGet("[action]")]
+        public async Task<UserDto> GetById([FromQuery]int id)
         {
-            return this.userService.GetUser();
+            return await this.userService.GetUserAsync(id);
         }
 
         [AllowAnonymous]
@@ -45,6 +45,13 @@ namespace RelacjeSportowe.Web.Controllers
         public async Task<RegisterUserResponse> Register([FromBody] RegisterUserRequest registerUserRequest)
         {
             return await this.userService.RegisterUserAsync(registerUserRequest);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public async Task<LoginUserResponse> SilentLogin()
+        {
+            return await this.userService.SilentLoginAsync();
         }
     }
 }

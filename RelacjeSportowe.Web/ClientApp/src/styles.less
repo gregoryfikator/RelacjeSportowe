@@ -1,0 +1,82 @@
+@import "./styles/color.constants.less";
+
+html, * {
+  @media (min-width: 0px) {
+    & {
+      font-size: 8px;
+    }
+  }
+
+  @media (min-width: 576px) {
+    & {
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 768px) {
+
+  }
+
+  @media (min-width: 992px) {
+    & {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: @basic-white;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.green-gradient {
+  background-image: linear-gradient(180deg, @light-green, @basic-green);
+}
+
+.dark-green-gradient {
+  background-image: linear-gradient(180deg, @basic-green, @dark-green);
+}
+
+.yellow-green-gradient {
+  background-image: linear-gradient(180deg, @basic-yellow, @light-green-olive);
+}
+
+.skewed {
+  transform: skew(-15deg);
+}
+
+.skewed-revert {
+  transform: skew(15deg);
+}
+
+.skewed-reset {
+  transform: skew(0deg);
+}
+
+.transparent-button {
+  background-color: transparent;
+  background-image: unset;
+}
+
+.bordered-button {
+  border: 1px solid rgba(@basic-white, 0.5);
+}

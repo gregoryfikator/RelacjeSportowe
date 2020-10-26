@@ -7,15 +7,21 @@ using RelacjeSportowe.DataAccess.Dtos.Responses;
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RelacjeSportowe.Business.Services
 {
-    public class UserService : BaseService<User>, IUserService
+    public class UserService : BaseBusinessService<User>, IUserService
     {
         private readonly IPasswordService passwordService;
         private readonly IJwtSecurityTokenService jwtSecurityTokenService;
+
+        private bool AnyUserExists
+        {
+            get { return Context.Users.Any(); }
+        }
 
         public UserService(IBaseUtilitiesProvider baseUtilitiesProvider,
             IPasswordService passwordService,
@@ -25,22 +31,6 @@ namespace RelacjeSportowe.Business.Services
             this.jwtSecurityTokenService = jwtSecurityTokenService;
         }
 
-        public async Task<UserDto> ActivateUser()
-        {
-            return await ActivateUser(CurrentUser.Id);
-        }
-
-        public async Task<UserDto> ActivateUser(int id)
-        {
-            var user = await GetByIdAsync(id);
-
-            user.IsActive = true;
-
-            await Context.SaveChangesAsync();
-
-            return Mapper.Map<User, UserDto>(user);
-        }
-
         public async Task DeleteUser(int id)
         {
             await DeleteAsync(id);
@@ -48,10 +38,10 @@ namespace RelacjeSportowe.Business.Services
 
         public UserDto GetUser()
         {
-            return this.CurrentUser;
+            return Mapper.Map<User, UserDto>(CurrentUser);
         }
 
-        public async Task<UserDto> GetUser(int id)
+        public async Task<UserDto> GetUserAsync(int id)
         {
             var user = await GetByIdAsync(id);
             return Mapper.Map<User, UserDto>(user);
@@ -63,7 +53,7 @@ namespace RelacjeSportowe.Business.Services
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await this.Context.Users
                 .FirstOrDefaultAsync(u => u.Email == email);
@@ -79,16 +69,17 @@ namespace RelacjeSportowe.Business.Services
 
             await this.Context.SaveChangesAsync();
 
-            var accessTokenGenerationDto = new AccessTokenGenerationData
+            var accessTokenGenerationData = new AccessTokenGenerationData
             {
                 UserId = user.Id,
-                IdentityProvider = loginUserRequest.IdentityProvider,
-                RefreshToken = Encoding.Default.GetString(user.RefreshToken)
+                RefreshToken = Encoding.Default.GetString(user.RefreshToken),
+                Email = user.Email,
+                AuthorizationRole = user.AuthorizationRole
             };
 
             var loginUserResponse = new LoginUserResponse
             {
-                AccessToken = this.jwtSecurityTokenService.GenerateToken(accessTokenGenerationDto),
+                AccessToken = this.jwtSecurityTokenService.GenerateToken(accessTokenGenerationData),
                 User = Mapper.Map<User, UserDto>(user)
             };
 
@@ -97,34 +88,58 @@ namespace RelacjeSportowe.Business.Services
 
         public async Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest registerUserRequest)
         {
-            var user = Mapper.Map<User>(registerUserRequest);
-
-            if (registerUserRequest.IdentityProvider == IdentityProvider.Default)
-            {
-                user.HashedPassword = this.passwordService.HashPassword(registerUserRequest.Password);
-            }
+            var user = Mapper.Map<RegisterUserRequest, User>(registerUserRequest);
+            user.HashedPassword = this.passwordService.HashPassword(registerUserRequest.Password);
 
             var refreshToken = this.jwtSecurityTokenService.GenerateRefreshToken();
             user.RefreshToken = Encoding.Default.GetBytes(refreshToken);
+
+            user.RoleId = AnyUserExists ? (int)AuthorizationRole.User : (int)AuthorizationRole.Administrator;
 
             await Context.Users.AddAsync(user);
 
             await Context.SaveChangesAsync();
 
-            var accessTokenGenerationDto = new AccessTokenGenerationData
+            var accessTokenGenerationData = new AccessTokenGenerationData
             {
                 UserId = user.Id,
-                IdentityProvider = registerUserRequest.IdentityProvider,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                Email = user.Email,
+                AuthorizationRole = user.AuthorizationRole
             };
 
             var registerUserResponse = new RegisterUserResponse
             {
-                AccessToken = this.jwtSecurityTokenService.GenerateToken(accessTokenGenerationDto),
+                AccessToken = this.jwtSecurityTokenService.GenerateToken(accessTokenGenerationData),
                 User = Mapper.Map<User, UserDto>(user)
             };
 
             return registerUserResponse;
+        }
+
+        public async Task<LoginUserResponse> SilentLoginAsync()
+        {
+            var user = this.CurrentUser;
+
+            user.LastLoginDate = DateTime.UtcNow;
+
+            await this.Context.SaveChangesAsync();
+
+            var accessTokenGenerationData = new AccessTokenGenerationData
+            {
+                UserId = user.Id,
+                RefreshToken = Encoding.Default.GetString(user.RefreshToken),
+                Email = user.Email,
+                AuthorizationRole = user.AuthorizationRole
+            };
+
+            var loginUserResponse = new LoginUserResponse
+            {
+                AccessToken = this.jwtSecurityTokenService.GenerateToken(accessTokenGenerationData),
+                User = Mapper.Map<User, UserDto>(user)
+            };
+
+            return loginUserResponse;
         }
     }
 }

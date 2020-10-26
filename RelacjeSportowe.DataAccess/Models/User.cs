@@ -1,10 +1,11 @@
-﻿using RelacjeSportowe.DataAccess.Enums;
+﻿using Newtonsoft.Json;
+using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Interfaces;
 using System;
 
 namespace RelacjeSportowe.DataAccess.Models
 {
-    public class User : IEntity, IAuditable
+    public class User : IEntity
     {
         public int Id { get; set; }
 
@@ -12,32 +13,26 @@ namespace RelacjeSportowe.DataAccess.Models
 
         public string Username { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
         public int RatingPoints { get; set; }
 
         public int RoleId { get; set; }
 
         public Role Role { get; set; }
 
+        [JsonIgnore]
+        public AuthorizationRole AuthorizationRole
+        {
+            get { return (AuthorizationRole)RoleId; }
+        }
+
         public bool IsActive { get; set; }
 
-        public DateTime? LastLoginDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
 
         public DateTime RegistrationDate { get; set; }
-
-        public IdentityProvider IdentityProvider { get; set; }
 
         public byte[] RefreshToken { get; set; }
 
         public byte[] HashedPassword { get; set; }
-
-        public int ModifiedById { get; set; }
-
-        public User ModifiedBy { get; set; }
-
-        public DateTime ModifiationDate { get; set; }
     }
 }

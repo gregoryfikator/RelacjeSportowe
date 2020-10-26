@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
+import { FormInputComponent } from './components/controls/form-input/form-input.component';
 
 @NgModule({
   declarations: [
-  AutoSpinnerComponent
+  AutoSpinnerComponent,
+  FormInputComponent
 ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.com
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    AutoSpinnerComponent
+    AutoSpinnerComponent,
+    FormInputComponent
   ],
   entryComponents: [
 

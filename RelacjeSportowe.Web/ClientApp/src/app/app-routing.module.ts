@@ -2,14 +2,17 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { Constants } from "./app.constants";
-import { CounterComponent } from "./counter/counter.component";
-import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { AuthorizeGuard } from "./modules/api-authorization/authorize.guard";
 import { HomeComponent } from "./modules/home/components/home/home.component";
 import { LoginComponent } from "./modules/home/components/login/login.component";
 import { RegisterComponent } from "./modules/home/components/register/register.component";
 
 const routes: Routes = [
+  {
+    path: Constants.Routing.BasicPaths.Empty,
+    redirectTo: Constants.Routing.BasicPaths.Home,
+    pathMatch: 'full'
+  },
   {
     path: Constants.Routing.BasicPaths.Home,
     component: HomeComponent,
@@ -32,15 +35,7 @@ const routes: Routes = [
     path: Constants.Routing.BasicPaths.Transmission,
     loadChildren: () => import('./modules/transmission/transmission.module').then(m => m.TransmissionModule),
     canLoad: [AuthorizeGuard]
-  },
-  {
-    path: 'counter',
-    component: CounterComponent
-  },
-  {
-    path: 'fetch-data',
-    component: FetchDataComponent
-  },
+  }
 ]
 
 @NgModule({

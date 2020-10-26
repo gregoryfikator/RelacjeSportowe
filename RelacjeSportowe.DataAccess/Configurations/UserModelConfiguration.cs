@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
 
 namespace RelacjeSportowe.DataAccess.Configurations
@@ -10,8 +8,6 @@ namespace RelacjeSportowe.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            var identityProviderConverter = new EnumToStringConverter<IdentityProvider>();
-
             builder.ToTable("Users");
 
             builder.HasKey(x => x.Id);
@@ -23,12 +19,12 @@ namespace RelacjeSportowe.DataAccess.Configurations
             builder.HasIndex(x => new { x.Email, x.Username })
                 .IsUnique();
 
-            builder.Property(x => x.IdentityProvider)
-                .HasConversion(identityProviderConverter);
+            builder.Ignore(x => x.AuthorizationRole);
 
-            builder.HasOne(x => x.ModifiedBy)
-                .WithOne()
-                .HasForeignKey<User>(x => x.ModifiedById);
+            builder.Property(x => x.Email).IsRequired();
+            builder.Property(x => x.Username).IsRequired();
+            builder.Property(x => x.RefreshToken).IsRequired();
+            builder.Property(x => x.HashedPassword).IsRequired();
         }
     }
 }

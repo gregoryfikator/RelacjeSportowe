@@ -1,0 +1,11 @@
+<div class="input-with-label">
+  <input [id]="id"
+         class="form-control"
+         [formControlName]="controlName"
+         [type]="type"
+         placeholder="{{label}}"
+         [required]="required"
+         spellcheck="false"
+         autocomplete="off" />
+  <label [for]="id">{{ label }}</label>
+</div>

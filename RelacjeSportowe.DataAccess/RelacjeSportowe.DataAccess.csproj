@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <Compile Remove="Data\Migrations\20201015003027_InitUsersAndRoles.cs" />
+    <Compile Remove="Data\Migrations\20201015003027_InitUsersAndRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201015003141_InitUsersAndRoles.cs" />
+    <Compile Remove="Data\Migrations\20201015003141_InitUsersAndRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201015003502_InitUsersAndRoles.cs" />
+    <Compile Remove="Data\Migrations\20201015003502_InitUsersAndRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201015011510_InitUsersAndRoles.cs" />
+    <Compile Remove="Data\Migrations\20201015011510_InitUsersAndRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201015011752_InitUsersAndRoles.cs" />
+    <Compile Remove="Data\Migrations\20201015011752_InitUsersAndRoles.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +29,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

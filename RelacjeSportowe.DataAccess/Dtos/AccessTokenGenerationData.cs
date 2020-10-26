@@ -6,10 +6,14 @@ namespace RelacjeSportowe.DataAccess.Dtos
     {
         public int UserId { get; set; }
 
-        public int RoleId { get; set; }
-
-        public IdentityProvider IdentityProvider { get; set; }
+        public AuthorizationRole AuthorizationRole { get; set; }
 
         public string RefreshToken { get; set; }
+
+        public string Email { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 }

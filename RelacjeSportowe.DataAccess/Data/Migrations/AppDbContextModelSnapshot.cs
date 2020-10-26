@@ -27,11 +27,29 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Value = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Value = "Moderator"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Value = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.User", b =>
@@ -42,37 +60,54 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<byte[]>("HashedPassword")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<DateTime?>("LastLoginDate")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LastLoginDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RatingPoints")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("RefreshToken")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id", "Email");
+                    b.HasIndex("RoleId")
+                        .IsUnique();
+
+                    b.HasIndex("Email", "Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.User", b =>
+                {
+                    b.HasOne("RelacjeSportowe.DataAccess.Models.Role", "Role")
+                        .WithOne()
+                        .HasForeignKey("RelacjeSportowe.DataAccess.Models.User", "RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

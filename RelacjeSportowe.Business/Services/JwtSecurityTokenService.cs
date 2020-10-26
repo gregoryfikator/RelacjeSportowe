@@ -3,11 +3,10 @@ using RelacjeSportowe.Business.Configurations;
 using RelacjeSportowe.Business.Extensions;
 using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.DataAccess.Dtos;
-using RelacjeSportowe.DataAccess.Enums;
+using RelacjeSportowe.DataAccess.Models;
 using RelacjeSportowe.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -30,28 +29,34 @@ namespace RelacjeSportowe.Business.Services
             var claims = new ClaimsIdentity(
                 new[]
                 {
-                    new Claim(Constants.JwtToken.Claims.UserId, accessTokenGenerationDto.UserId.ToString()),
+                    new Claim(Constants.JwtToken.Claims.Email, accessTokenGenerationDto.Email.ToString()),
                     new Claim(Constants.JwtToken.Claims.RefreshToken, accessTokenGenerationDto.RefreshToken),
-                    new Claim(Constants.JwtToken.Claims.IdentityProvider, accessTokenGenerationDto.IdentityProvider.ToString()),
-                    new Claim(ClaimTypes.Role, accessTokenGenerationDto.RoleId.ToString())
+                    new Claim(Constants.JwtToken.Claims.UserId, accessTokenGenerationDto.UserId.ToString()),
+                    new Claim(Constants.JwtToken.Claims.Role, accessTokenGenerationDto.AuthorizationRole.ToString())
                 });
 
-            switch (accessTokenGenerationDto.IdentityProvider)
-            {
-                case IdentityProvider.Facebook:
-                    break;
-                case IdentityProvider.Google:
-                    break;
-                default:
-                    break;
-            }
+            return CreateNewToken(claims);
+        }
+
+        public string RegenerateToken(JwtSecurityToken expiredJwtSecurityToken, User user)
+        {
+            var authorizationRoleChanged = ValidateAuthorizationRole(expiredJwtSecurityToken, user);
+
+            var claims = new ClaimsIdentity(
+                new[]
+                {
+                    new Claim(Constants.JwtToken.Claims.Email, expiredJwtSecurityToken.GetEmail()),
+                    new Claim(Constants.JwtToken.Claims.RefreshToken, expiredJwtSecurityToken.GetRefreshToken()),
+                    new Claim(Constants.JwtToken.Claims.UserId, expiredJwtSecurityToken.GetUserId().ToString()),
+                    new Claim(Constants.JwtToken.Claims.Role, authorizationRoleChanged ? user.AuthorizationRole.ToString() : expiredJwtSecurityToken.GetAuthorizationRole().ToString())
+                });
 
             return CreateNewToken(claims);
         }
 
         public string GenerateRefreshToken()
         {
-            RNGCryptoServiceProvider rngProvider = new RNGCryptoServiceProvider();
+            var rngProvider = new RNGCryptoServiceProvider();
 
             var bytesArray = new byte[Constants.JwtToken.Settings.RefreshTokenLengthInBytes];
 
@@ -60,31 +65,16 @@ namespace RelacjeSportowe.Business.Services
             return Convert.ToBase64String(bytesArray);
         }
 
-        public string RegenerateExpiredToken(JwtSecurityToken expiredJwtSecurityToken)
+        public bool ValidateAuthorizationRole(JwtSecurityToken jwtToken, User user)
         {
-            var userId = expiredJwtSecurityToken.GetUserId().ToString();
-            var refreshToken = expiredJwtSecurityToken.GetRefreshToken();
-            var identityProvider = expiredJwtSecurityToken.Claims.First(x => x.Type == Constants.JwtToken.Claims.IdentityProvider);
+            var authorizationRole = jwtToken.GetAuthorizationRole();
+            return authorizationRole == user.AuthorizationRole;
+        }
 
-            var claims = new ClaimsIdentity(
-                new[]
-                {
-                    new Claim(Constants.JwtToken.Claims.UserId, userId),
-                    new Claim(Constants.JwtToken.Claims.RefreshToken, refreshToken),
-                    new Claim(Constants.JwtToken.Claims.IdentityProvider, identityProvider.ToString())
-                });
-
-            //switch (identityProvider)
-            //{
-            //    case IdentityProvider.Facebook:
-            //        break;
-            //    case IdentityProvider.Google:
-            //        break;
-            //    default:
-            //        break;
-            //}
-
-            return CreateNewToken(claims);
+        public bool ValidateRefreshToken(JwtSecurityToken jwtToken, User user)
+        {
+            var refreshToken = jwtToken.GetRefreshToken();
+            return refreshToken == Encoding.Default.GetString(user.RefreshToken);
         }
 
         private string CreateNewToken(ClaimsIdentity claims)

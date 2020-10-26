@@ -12,9 +12,7 @@ namespace RelacjeSportowe.DataAccess.Configurations
 
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.ModifiedBy)
-                .WithOne()
-                .HasForeignKey<Role>(x => x.ModifiedById);
+            builder.Property(x => x.Value).IsRequired();
         }
     }
 }

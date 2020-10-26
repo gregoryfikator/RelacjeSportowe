@@ -14,7 +14,7 @@ export class JwtAccessTokenService {
   }
 
   public getToken(): string {
-    return localStorage.getItem('jwt');
+    return localStorage.getItem('access_token');
   }
 
   public hasToken(): boolean {
@@ -22,10 +22,10 @@ export class JwtAccessTokenService {
   }
 
   public removeToken(): void {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('access_token');
   }
 
   public setToken(newToken: string): void {
-    localStorage.setItem('jwt', newToken);
+    localStorage.setItem('access_token', newToken);
   }
 }

@@ -1,19 +1,28 @@
-<form [formGroup]="loginFormGroup"
+<form class="login-form col-6"
+      [formGroup]="loginFormGroup"
       (ngSubmit)="onSubmit()">
-  <label>Username
-    <input class="form-control"
-           type="text"
-           formControlName="username" />
-  </label>
-  <br />
-  <label>Password
-    <input class="form-control"
-           type="password"
-           formControlName="password" />
-  </label>
-  <hr>
-  <button class="btn btn-primary btn-block"
-          type="submit">Login</button>
-  <button class="btn btn-primary btn-block"
-          type="button" (click)="register()">Register</button>
+
+  <h4>Logowanie</h4>
+  
+  <app-form-input type="text"
+                  controlName="username"
+                  label="Nazwa użytkownika">
+  </app-form-input>
+  <app-form-input type="password"
+                  controlName="password"
+                  label="Hasło">
+  </app-form-input>
+
+  <button class="login-button"
+          type="submit">
+    ZALOGUJ
+  </button>
+
+  <a>Nie pamiętam nazwy użytkownika lub hasła</a>
+
+  <a [routerLink]="['/Register']"
+     class="register-link">
+    Nie masz konta? Zarejestruj się
+  </a>
+
 </form>

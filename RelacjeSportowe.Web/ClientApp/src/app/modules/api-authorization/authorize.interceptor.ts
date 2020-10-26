@@ -5,6 +5,7 @@ import { JwtAccessTokenService } from './jwt-access-token.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Constants } from 'src/app/app.constants';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,15 +24,13 @@ export class AuthorizeInterceptor implements HttpInterceptor {
     return this.processRequestWithToken(this.jwtAccessTokenService.getToken(), req, next)
       .pipe(
         catchError((response) => {
-          if (response.status === 474) {
-            //redirect to login page
+          if (response.status === Constants.StatusCodes.RedirectToLoginPage) {
             this.router.navigate([Constants.Routing.BasicPaths.Login], {
               queryParams: {
                 ['redirectUrl']: this.router.routerState.snapshot.url
               }
             });
-          } else if (response.status === 475) {
-            //new token created
+          } else if (response.status === Constants.StatusCodes.NewAccessTokenCreated) {
             this.jwtAccessTokenService.setToken(response.error.jwtToken);
             return this.processRequestWithToken(this.jwtAccessTokenService.getToken(), req, next);
           } else {
@@ -54,6 +53,11 @@ export class AuthorizeInterceptor implements HttpInterceptor {
   }
 
   private isSameOriginUrl(req: any) {
+
+    if (req.url.startsWith(`${environment.apiAddress}`)) {
+      return true;
+    }
+
     // It's an absolute url with the same origin.
     if (req.url.startsWith(`${window.location.origin}/`)) {
       return true;

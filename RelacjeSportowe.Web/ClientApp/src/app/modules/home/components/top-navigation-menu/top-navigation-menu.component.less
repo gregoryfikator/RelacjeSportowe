@@ -1,0 +1,254 @@
+@import (reference) "../../../../../styles.less";
+
+.top-navigation-menu-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  @media (min-width: 1200px) {
+    & {
+      flex-wrap: unset;
+      height: 4rem;
+    }
+  }
+
+  .link-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 9rem;
+    min-width: 9rem;
+    max-width: 9rem;
+    height: 3rem;
+    margin: .5rem .25rem;
+
+    border: 1px solid rgba(@basic-white, 0.5);
+    border-radius: 5px;
+
+    text-transform: uppercase;
+
+    * {
+      .skewed-revert();
+    }
+
+    div {
+      font-size: .75rem;
+    }
+  }
+
+  .logo {
+    display: flex;
+    height: 4rem;
+    margin-left: -.5rem;
+    margin-right: .25rem;
+    padding-right: 1rem;
+
+    @media (min-width: 0px) {
+      & {
+        padding-left: 2.25rem;
+        margin-left: -6rem;
+        flex: 0 0 125%;
+        max-width: 125%;
+      }
+
+      svg {
+        padding-left: 1.5rem;
+      }
+    }
+
+    @media (min-width: 576px) {
+      & {
+        padding-left: 1rem;
+        margin-left: -1rem;
+        flex: 0 0 110%;
+        max-width: 110%;
+      }
+
+      svg {
+        padding-left: .75rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      & {}
+
+      svg {
+        padding-left: .75rem;
+      }
+    }
+
+    @media (min-width: 992px) {
+      & {}
+
+      svg {
+        padding-left: 1rem;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      & {
+        flex: unset;
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+      }
+    }
+  }
+
+  .links-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    @media (min-width: 992px) {
+      & {
+        flex: unset;
+        flex-direction: row;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      & {
+        margin-left: 0;
+        margin-right: .25rem;
+      }
+    }
+
+    a {
+      font-weight: 300;
+
+      &.link-button {
+        padding: 1rem;
+        color: @basic-white;
+        transition: color 0.25s ease-in-out, border 0.25s ease-in-out;
+        width: 75%;
+
+        margin-top: .5rem;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+
+        @media (min-width: 0px) {
+          & {
+            min-width: unset;
+            max-width: unset;
+          }
+
+          &:last-child {
+            margin-bottom: .5rem;
+          }
+        }
+
+        @media (min-width: 992px) {
+          & {
+            margin-bottom: .5rem;
+            margin-left: .25rem;
+            margin-right: .25rem;
+          }
+        }
+
+        @media (min-width: 1200px) {
+          & {
+            flex: none;
+            width: 10rem;
+            margin-bottom: .5rem;
+            min-width: 10rem;
+            max-width: 10rem;
+          }
+        }
+
+        &.link-active {
+          font-weight: 500;
+          color: @basic-yellow;
+          border: 1px solid @basic-yellow;
+        }
+
+        &:hover {
+          color: @basic-yellow;
+          text-decoration: none;
+
+          &:not(.link-active) {
+            border: 1px solid rgba(@basic-yellow, 0.5);
+          }
+        }
+      }
+    }
+  }
+}
+
+.user-access {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: .25rem;
+  max-width: 19rem;
+
+  &:last-of-type(.link-button) {
+    margin-right: .75rem;
+
+    @media (min-width: 1200px) {
+      margin-right: .25rem;
+    }
+  }
+
+  .link-button {
+    padding: .5rem;
+    color: @basic-white;
+
+
+    div {
+      .skewed-reset();
+      color: inherit;
+    }
+
+    &.link-active {
+      font-weight: 500;
+      color: @basic-yellow;
+      border: 1px solid @basic-yellow;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.register-button {
+      background-color: @light-green-olive;
+      color: @basic-white;
+      transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out, border 0.25s ease-in-out;
+
+      &.link-active {
+        background-color: @basic-yellow;
+        color: @basic-black;
+        border: rgba(@basic-black, 0.5);
+      }
+
+      &:hover {
+        background-color: @basic-yellow;
+        color: @basic-black;
+        border: rgba(@basic-black, 0.5);
+      }
+    }
+
+    &.login-button {
+      .transparent-button();
+      .bordered-button();
+
+      &.link-active {
+        border: 1px solid @basic-yellow;
+      }
+
+      transition: border-color 0.25s ease-in-out,
+      color 0.25s ease-in-out;
+
+      &:hover {
+        border-color: @basic-yellow;
+        color: @basic-yellow;
+      }
+    }
+  }
+}

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoginUserRequest } from 'src/app/models/dtos/requests/login-user-request';
+import { AuthorizationService } from 'src/app/modules/api-authorization/authorization.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -11,7 +14,11 @@ export class LoginComponent {
 
   public loginFormGroup: FormGroup;
 
-  constructor(private userService: UserService) {
+  public formSubmissionInProgress: boolean;
+
+  constructor(private userService: UserService,
+    private authorizationService: AuthorizationService,
+    private router: Router) {
     this.loginFormGroup = new FormGroup({
       username: new FormControl('', [
         Validators.required
@@ -23,23 +30,22 @@ export class LoginComponent {
   }
 
   public onSubmit(): void {
-    console.log(this.loginFormGroup.getRawValue())
-
     if (this.loginFormGroup.valid) {
-      this.userService.login(Object.assign({ identityProvider: 0 }, this.loginFormGroup.getRawValue()))
+      this.formSubmissionInProgress = true;
+      this.userService.login(new LoginUserRequest(this.loginFormGroup.getRawValue()))
         .subscribe((response) => {
           console.log(response);
+          this.router.navigateByUrl("/Home");
+        }, (error) => {
+          console.log(error);
+          this.formSubmissionInProgress = false;
         });
-    } else {
-
     }
   }
 
-  public register(): void {
-    this.userService.register()
-      .subscribe((response) => {
-        console.log(response);
-      });
-  }
-
+  // public logout(): void {
+  //   localStorage.clear();
+  //   this.authorizationService.setCurrentUser(null);
+  //   this.router.navigate(['/']);
+  // }
 }

@@ -8,22 +8,20 @@ namespace RelacjeSportowe.Business.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<UserDto> ActivateUser();
-
-        Task<UserDto> ActivateUser(int id);
-
         Task DeleteUser(int id);
 
         UserDto GetUser();
 
-        Task<UserDto> GetUser(int id);
+        Task<UserDto> GetUserAsync(int id);
 
         Task<User> GetUserAsync(string username);
 
-        Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByEmailAsync(string email);
 
         Task<LoginUserResponse> LoginUserAsync(LoginUserRequest loginUserRequest);
 
         Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest registerUserRequest);
+
+        Task<LoginUserResponse> SilentLoginAsync();
     }
 }

@@ -8,11 +8,5 @@ namespace RelacjeSportowe.DataAccess.Models
         public int Id { get; set; }
 
         public string Value { get; set; }
-
-        public int ModifiedById { get; set; }
-
-        public User ModifiedBy { get; set; }
-
-        public DateTime ModifiationDate { get; set; }
     }
 }

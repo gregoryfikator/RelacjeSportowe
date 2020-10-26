@@ -1,0 +1,133 @@
+@import (reference) "../../../../../styles.less";
+
+:host {
+  height: 100%;
+}
+
+.layout-container {
+  display: flex;
+  height: fit-content;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .side-column {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    justify-content: space-between;
+
+    &.left-column {
+    }
+
+    &.right-column {
+    }
+
+    @media (min-width: 576px) {
+
+    }
+
+    @media (min-width: 768px) {
+
+    }
+
+    @media (min-width: 992px) {
+
+    }
+
+    @media (min-width: 1200px) {
+      & {
+        flex-direction: column;
+        min-width: 16rem;
+        max-width: 16rem;
+      }
+
+      &.left-column {
+        margin-right: auto;
+        margin-left: 0;
+
+        padding-right: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 1rem;
+      }
+
+      &.right-column {
+        margin-left: auto;
+        margin-right: 0;
+
+        padding-left: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 1rem;
+      }
+
+      .side-column-panel {
+        flex: unset;
+        max-width: unset;
+      }
+    }
+  }
+
+  .middle-column {
+    display: flex;
+    justify-content: center;
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    height: fit-content;
+
+    @media (min-width: 1200px) {
+      & {
+        padding: 0;
+      }
+    }
+  }
+
+  .side-column-panel {
+    width: 100%;
+    max-width: 33.333%;
+    height: fit-content;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid @light-green-olive;
+    border-radius: 5px;
+
+    background-image: linear-gradient(180deg, @light-green , @basic-green);
+
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    h5 {
+      margin-bottom: 1rem;
+      color: @basic-yellow;
+    }
+
+    p {
+      font-size: 0.75rem;
+      margin-bottom: .25rem;
+      color: @basic-white;
+
+      &:hover {
+        color: @light-green-olive;
+      }
+    }
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .side-column-panel:last-of-type {
+    margin-bottom: 0;
+  }
+}

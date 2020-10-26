@@ -1,13 +1,19 @@
 ﻿using AutoMapper;
-using RelacjeSportowe.Business.Dtos;
 using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.DataAccess.Data;
+using RelacjeSportowe.DataAccess.Models;
 
 namespace RelacjeSportowe.Business.Providers
 {
     public class BaseUtilitiesProvider : IBaseUtilitiesProvider
     {
         private readonly IUserProvider userProvider;
+
+        public AppDbContext Context { get; }
+
+        public User CurrentUser => userProvider.CurrentUser;
+
+        public IMapper Mapper { get; }
 
         public BaseUtilitiesProvider(AppDbContext context,
             IUserProvider userProvider,
@@ -17,11 +23,5 @@ namespace RelacjeSportowe.Business.Providers
             this.userProvider = userProvider;
             Mapper = mapper;
         }
-
-        public AppDbContext Context { get; }
-
-        public UserDto CurrentUser { get { return userProvider.CurrentUser; } }
-
-        public IMapper Mapper { get; }
     }
 }
