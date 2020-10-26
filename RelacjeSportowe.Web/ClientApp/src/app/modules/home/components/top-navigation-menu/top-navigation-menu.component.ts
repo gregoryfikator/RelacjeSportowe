@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorizationRole } from 'src/app/models/enums/authorization-role.enum';
 import { AuthorizationService } from 'src/app/modules/api-authorization/authorization.service';
 
 @Component({
@@ -12,6 +13,10 @@ export class TopNavigationMenuComponent implements OnInit {
   }
   
   ngOnInit() {
+  }
+
+  public get isAdmin() {
+    return this.authorizationService.getUserRole().value === AuthorizationRole.Administrator;
   }
 
   public get isUserLogged() {

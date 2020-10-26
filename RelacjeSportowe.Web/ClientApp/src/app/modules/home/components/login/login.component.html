@@ -3,15 +3,14 @@
       (ngSubmit)="onSubmit()">
 
   <h4>Logowanie</h4>
-  
+
   <app-form-input type="text"
                   controlName="username"
                   label="Nazwa użytkownika">
   </app-form-input>
-  <app-form-input type="password"
-                  controlName="password"
-                  label="Hasło">
-  </app-form-input>
+  <app-password-input controlName="password"
+                      label="Hasło">
+  </app-password-input>
 
   <button class="login-button"
           type="submit">

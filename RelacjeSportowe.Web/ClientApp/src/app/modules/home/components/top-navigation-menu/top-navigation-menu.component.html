@@ -64,27 +64,28 @@
   <div class="links-container">
     <a class="link-button green-gradient skewed"
        [routerLink]="['/Home']"
-       [routerLinkActive]="['link-active']">
+       routerLinkActive="link-active">
       <div>Strona główna</div>
     </a>
     <a class="link-button green-gradient skewed"
        [routerLink]="['/Transmission']"
-       [routerLinkActive]="['link-active']">
+       routerLinkActive="link-active">
       <div>Transmisje</div>
     </a>
     <a class="link-button green-gradient skewed"
-       [routerLink]="['/Ranking']"
-       [routerLinkActive]="['link-active']">
+       [routerLink]="['/Leaderboard']"
+       routerLinkActive="link-active">
       <div>Ranking</div>
     </a>
     <a class="link-button green-gradient skewed"
+       [hidden]="isAdmin ? false : true"
        [routerLink]="['/Administration']"
-       [routerLinkActive]="['link-active']">
+       routerLinkActive="link-active">
       <div>Administracja</div>
     </a>
   </div>
 
-  <div *ngIf="!isUserLogged"
+  <div *ngIf="!isUserLogged; else userPanel"
        class="user-access col-12">
     <a class="link-button register-button"
        [routerLink]="['/Register']"
@@ -97,4 +98,7 @@
       <div>Zaloguj</div>
     </a>
   </div>
+  <ng-template #userPanel>
+    <app-user-info-menu-item></app-user-info-menu-item>
+  </ng-template>
 </div>

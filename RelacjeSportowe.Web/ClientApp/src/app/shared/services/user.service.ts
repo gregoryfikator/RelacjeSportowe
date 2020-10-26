@@ -35,8 +35,7 @@ export class UserService {
       .pipe(
         take(1),
         tap((response) => {
-          this.jwtAccessTokenService.setToken(response.accessToken);
-          this.authorizationService.setCurrentUser(new User(response.user));
+          this.authorizationService.aquireUser(response);
         })
       );
   }
@@ -46,8 +45,7 @@ export class UserService {
       .pipe(
         take(1),
         tap((response) => {
-          this.jwtAccessTokenService.setToken(response.accessToken);
-          this.authorizationService.setCurrentUser(new User(response.user));
+          this.authorizationService.aquireUser(response);
         })
       );
   }
@@ -57,8 +55,7 @@ export class UserService {
       .pipe(
         take(1),
         tap((response) => {
-          this.jwtAccessTokenService.setToken(response.accessToken);
-          this.authorizationService.setCurrentUser(new User(response.user));
+          this.authorizationService.aquireUser(response);
         })
       );
   }

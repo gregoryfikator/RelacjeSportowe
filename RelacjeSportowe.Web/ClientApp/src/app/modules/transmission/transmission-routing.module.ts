@@ -2,17 +2,19 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { Constants } from "src/app/app.constants";
+import { TransmissionDashboardComponent } from "./components/transmission-dashboard/transmission-dashboard.component";
 import { TransmissionComponent } from "./components/transmission/transmission.component";
 
 const routes: Routes = [
   {
-    path: Constants.Routing.BasicPaths.Transmission,
+    path: Constants.Routing.BasicPaths.Empty,
     component: TransmissionComponent,
     children: [
       {
-        path: Constants.Routing.TransmissionPaths.AllTransmissions,
+        path: Constants.Routing.BasicPaths.Empty,
+        component: TransmissionDashboardComponent,
         pathMatch: 'full'
-      }
+      },
     ]
   },
 ]
@@ -25,4 +27,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule { }
+export class TransmissionRoutingModule { }

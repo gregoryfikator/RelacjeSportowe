@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using RelacjeSportowe.Business.Extensions;
 using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.Business.Interfaces.Services;
-using RelacjeSportowe.DataAccess.Models;
 using RelacjeSportowe.Services;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RelacjeSportowe.Web.Middlewares

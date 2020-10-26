@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { Constants } from 'src/app/app.constants';
 import { AuthorizationService } from './authorization.service';
 
@@ -29,6 +29,7 @@ export class AuthorizeGuard implements CanActivate, CanLoad {
   private handleAuthorization(redirectUrl: string): Observable<boolean> | Promise<boolean> | boolean {
     return this.authorizationService.isAuthenticated()
       .pipe(
+        take(1),
         tap((isAuthenticated: boolean) => {
           if (isAuthenticated === false) {
             this.router.navigate([Constants.Routing.BasicPaths.Login], {
@@ -36,7 +37,9 @@ export class AuthorizeGuard implements CanActivate, CanLoad {
                 ['redirectUrl']: redirectUrl
               }
             });
-          }
+          } 
+
+          return isAuthenticated;
         })
       );
   }

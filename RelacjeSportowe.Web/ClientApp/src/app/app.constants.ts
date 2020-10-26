@@ -7,12 +7,13 @@ export class Constants {
   public static readonly Routing = class {
     public static readonly BasicPaths = class {
       public static readonly Empty = "";
+      public static readonly Administration = "Administration";
       public static readonly Home = "Home";
+      public static readonly Leaderboard = "Leaderboard";
       public static readonly Login = "Login";
       public static readonly Register = "Register";
-      public static readonly User = "User";
       public static readonly Transmission = "Transmission";
-      public static readonly Administration = "Administration";
+      public static readonly User = "User";
     }
 
     public static readonly UserPaths = class {
@@ -20,7 +21,8 @@ export class Constants {
     }
 
     public static readonly TransmissionPaths = class {
-      public static readonly AllTransmissions = "AllTransmissions"
+      public static readonly AllTransmissions = "AllTransmissions";
+      public static readonly Dashboard = "Dashboard";
     }
 
     public static readonly AdministrationPaths = class {

@@ -1,0 +1,64 @@
+@import (reference) "../../../../../../styles.less";
+
+:host {
+  display: flex;
+  height: 100%;
+  padding-left: .5rem;
+  padding-right: 1rem;
+
+  &:hover {
+    .user-info-container {
+      color: @basic-yellow;
+      cursor: pointer;
+
+      .user-info {
+        .user-info-panel {
+          transform: scaleY(1);
+          z-index: 9999;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  .user-info-container {
+    display: flex;
+    align-items: center;
+
+    color: @basic-white;
+
+    fa-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      margin-left: .25rem;
+
+      .username {
+        font-size: 1rem;
+      }
+
+      .user-info-panel {
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.26s ease;
+        height: 24rem;
+        width: 17rem;
+        position: absolute;
+        right: 0px;
+        top: 4rem;
+        padding: 1rem;
+        background-image: linear-gradient(180deg, @light-green , @basic-green);
+        border: 1px solid @light-green-olive;
+        border-radius: 5px;
+        color: @basic-yellow;
+      }
+    }
+  }
+}

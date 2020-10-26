@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtAccessTokenService } from './modules/api-authorization/jwt-access-token.service';
 import { UserService } from './shared/services/user.service';
 
 @Component({
@@ -7,14 +8,17 @@ import { UserService } from './shared/services/user.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  
+
   title = 'app';
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+    private jwtTokenService: JwtAccessTokenService) {
   }
 
   ngOnInit() {
-    this.userService.silentLogin()
-      .subscribe();
+    if (this.jwtTokenService.getToken() != null) {
+      this.userService.silentLogin()
+        .subscribe();
+    }
   }
 }

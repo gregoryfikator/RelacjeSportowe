@@ -6,24 +6,31 @@ import { UserService } from './services/user.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
 import { FormInputComponent } from './components/controls/form-input/form-input.component';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PasswordInputComponent } from './components/controls/password-input/password-input.component';
 
 @NgModule({
   declarations: [
-  AutoSpinnerComponent,
-  FormInputComponent
-],
+    AutoSpinnerComponent,
+    FormInputComponent,
+    PasswordInputComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    FontAwesomeModule
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    FontAwesomeModule,
     AutoSpinnerComponent,
-    FormInputComponent
+    FormInputComponent,
+    PasswordInputComponent,
   ],
   entryComponents: [
 
