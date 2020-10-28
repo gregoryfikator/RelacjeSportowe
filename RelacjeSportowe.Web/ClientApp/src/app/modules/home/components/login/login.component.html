@@ -5,11 +5,23 @@
   <h4>Logowanie</h4>
 
   <app-form-input type="text"
-                  controlName="username"
+                  idPrefix="username"
+                  [formCtrl]="username"
                   label="Nazwa użytkownika">
+    <div validation
+         *ngIf="submitted && username.errors"
+         class="invalid-feedback">
+      <div *ngIf="username.errors.required">Nazwa użytkownika jest wymagana</div>
+    </div>
   </app-form-input>
-  <app-password-input controlName="password"
+  <app-password-input idPrefix="password"
+                      [formCtrl]="password"
                       label="Hasło">
+    <div validation
+         *ngIf="submitted && password.errors"
+         class="invalid-feedback">
+      <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+    </div>
   </app-password-input>
 
   <button class="login-button"

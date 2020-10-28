@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.Business.Interfaces.Services;
+using RelacjeSportowe.Business.Interfaces.Validators;
 using RelacjeSportowe.DataAccess.Dtos;
 using RelacjeSportowe.DataAccess.Dtos.Requests;
 using RelacjeSportowe.DataAccess.Dtos.Responses;
@@ -17,6 +18,7 @@ namespace RelacjeSportowe.Business.Services
     {
         private readonly IPasswordService passwordService;
         private readonly IJwtSecurityTokenService jwtSecurityTokenService;
+        private readonly IUserValidationService userValidationService;
 
         private bool AnyUserExists
         {
@@ -25,10 +27,12 @@ namespace RelacjeSportowe.Business.Services
 
         public UserService(IBaseUtilitiesProvider baseUtilitiesProvider,
             IPasswordService passwordService,
-            IJwtSecurityTokenService jwtSecurityTokenService) : base(baseUtilitiesProvider)
+            IJwtSecurityTokenService jwtSecurityTokenService,
+            IUserValidationService userValidationService) : base(baseUtilitiesProvider)
         {
             this.passwordService = passwordService;
             this.jwtSecurityTokenService = jwtSecurityTokenService;
+            this.userValidationService = userValidationService;
         }
 
         public async Task DeleteUser(int id)
@@ -63,6 +67,8 @@ namespace RelacjeSportowe.Business.Services
         {
             var user = await this.GetUserAsync(loginUserRequest.Username);
 
+            this.userValidationService.ValidateLoginUser(user);
+
             this.passwordService.CheckPassword(loginUserRequest.Password, user.HashedPassword);
 
             user.LastLoginDate = DateTime.UtcNow;
@@ -89,6 +95,9 @@ namespace RelacjeSportowe.Business.Services
         public async Task<RegisterUserResponse> RegisterUserAsync(RegisterUserRequest registerUserRequest)
         {
             var user = Mapper.Map<RegisterUserRequest, User>(registerUserRequest);
+
+            this.userValidationService.ValidateRegisterUser(user);
+
             user.HashedPassword = this.passwordService.HashPassword(registerUserRequest.Password);
 
             var refreshToken = this.jwtSecurityTokenService.GenerateRefreshToken();
@@ -120,6 +129,8 @@ namespace RelacjeSportowe.Business.Services
         public async Task<LoginUserResponse> SilentLoginAsync()
         {
             var user = this.CurrentUser;
+
+            this.userValidationService.ValidateLoginUser(user);
 
             user.LastLoginDate = DateTime.UtcNow;
 

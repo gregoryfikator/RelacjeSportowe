@@ -1,24 +1,18 @@
-import { Component, Input, OnInit, SkipSelf } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { faEye, faEyeSlash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-password-input',
   templateUrl: './password-input.component.html',
-  styleUrls: ['./password-input.component.less'],
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useFactory: (container: ControlContainer) => container,
-      deps: [[new SkipSelf(), ControlContainer]]
-    }
-  ]
+  styleUrls: ['./password-input.component.less']
 })
 export class PasswordInputComponent implements OnInit {
 
-  @Input() public controlName: string;
+  @Input() public formCtrl: FormControl;
 
   @Input() public label: string;
+  @Input() public idPrefix: string;
   @Input() public required: boolean;
 
   public id: string;
@@ -32,7 +26,7 @@ export class PasswordInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = this.controlName + "FormInput";
+    this.id = this.idPrefix + "FormInput";
   }
 
   public passwordToggle(): void {

@@ -5,18 +5,45 @@
   <h4>Rejestracja</h4>
 
   <app-form-input type="email"
-                  controlName="email"
+                  idPrefix="email"
+                  [formCtrl]="email"
                   label="Adres email">
+    <div validation
+         *ngIf="submitted && email.errors"
+         class="invalid-feedback">
+      <div *ngIf="email.errors.required">Adres email jest wymagany</div>
+      <div *ngIf="email.errors.email">Niepoprawny adres email</div>
+    </div>
   </app-form-input>
   <app-form-input type="text"
-                  controlName="username"
+                  idPrefix="username"
+                  [formCtrl]="username"
                   label="Nazwa użytkownika">
+    <div validation
+         *ngIf="submitted && username.errors"
+         class="invalid-feedback">
+      <div *ngIf="username.errors.required">Nazwa użytkownika jest wymagana</div>
+    </div>
   </app-form-input>
-  <app-password-input controlName="password"
+  <app-password-input idPrefix="password"
+                      [formCtrl]="password"
                       label="Hasło">
+    <div validation
+         *ngIf="submitted && password.errors"
+         class="invalid-feedback">
+      <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+      <div *ngIf="password.errors.minlength">Hasło musi składać się z przynajmniej 6 znaków</div>
+    </div>
   </app-password-input>
-  <app-password-input controlName="passwordConfirm"
+  <app-password-input idPrefix="passwordConfirm"
+                      [formCtrl]="passwordConfirm"
                       label="Potwierdź hasło">
+    <div validation
+         *ngIf="submitted && passwordConfirm.errors"
+         class="invalid-feedback">
+      <div *ngIf="passwordConfirm.errors.required">Potwierdzenie hasła jest wymagane</div>
+      <div *ngIf="passwordConfirm.errors.mustMatch">Podane hasła są różne</div>
+    </div>
   </app-password-input>
 
   <button class="register-button"

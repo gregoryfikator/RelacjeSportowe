@@ -9,6 +9,13 @@
             public const int NewAccessTokenCreated = 475;
         }
 
+        public class ErrorCodes
+        {
+            public const int EmailAlreadyExists = 1001;
+            public const int UsernameAlreadyExists = 1002;
+            public const int UserNotFound = 1003;
+        }
+
         public class Configuration
         {
             public const string AllowedOrigins = "AllowedOrigins";
