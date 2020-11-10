@@ -22,6 +22,9 @@ using RelacjeSportowe.Business.Validators;
 using RelacjeSportowe.DataAccess.Data;
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.Services;
+using RelacjeSportowe.Transmission.Hubs;
+using RelacjeSportowe.Transmission.Interfaces;
+using RelacjeSportowe.Transmission.Services;
 using RelacjeSportowe.Web.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -142,6 +145,8 @@ namespace RelacjeSportowe.Web
 
                 });
 
+            services.AddSignalR();
+
             services.AddControllersWithViews(); //.AddMvcCore().AddAuthorization();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -199,6 +204,7 @@ namespace RelacjeSportowe.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "api/{controller}/{action=Get}/{id?}");
+                endpoints.MapHub<TransmissionHub>("api/live");
             });
 
             app.UseSpa(spa =>
@@ -230,10 +236,14 @@ namespace RelacjeSportowe.Web
 
         private void ConfigureBusinessServices(IServiceCollection services)
         {
+            services.AddSingleton<ITransmissionHubService, TransmissionHubService>();
+
             services.AddScoped<IJwtSecurityTokenService, JwtSecurityTokenService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILeaderboardService, LeaderboardService>();
+            services.AddScoped<ITransmissionEventTypeService, TransmissionEventTypeService>();
         }
 
         private void ConfigureValidationServices(IServiceCollection services)

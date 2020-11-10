@@ -8,6 +8,7 @@ using RelacjeSportowe.DataAccess.Dtos.Responses;
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,9 +36,22 @@ namespace RelacjeSportowe.Business.Services
             this.userValidationService = userValidationService;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUserAsync(int id)
         {
+            this.userValidationService.ValidateDeleteUser();
+
             await DeleteAsync(id);
+        }
+
+        public IEnumerable<UserWithRoleDto> GetUsers()
+        {
+            this.userValidationService.ValidateGetUsers();
+
+            var users = GetAll(true)
+                .Include(x => x.Role)
+                .Select(x => Mapper.Map<User, UserWithRoleDto>(x));
+
+            return users;
         }
 
         public UserDto GetUser()
@@ -61,6 +75,11 @@ namespace RelacjeSportowe.Business.Services
         {
             return await this.Context.Users
                 .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<UserWithRoleDto> LockUserAccountAsync(int id)
+        {
+            return await ChangeUserAccountStateAsync(id, false);
         }
 
         public async Task<LoginUserResponse> LoginUserAsync(LoginUserRequest loginUserRequest)
@@ -151,6 +170,39 @@ namespace RelacjeSportowe.Business.Services
             };
 
             return loginUserResponse;
+        }
+
+        public async Task<UserWithRoleDto> UnlockUserAccountAsync(int id)
+        {
+            return await ChangeUserAccountStateAsync(id, true);
+        }
+
+        public async Task<UserWithRoleDto> UpdateUserRoleAsync(UpdateUserRoleRequest request)
+        {
+            this.userValidationService.ValidateUpdateUserRole();
+
+            var role = await Context.Roles.FirstAsync(x => x.Id == request.RoleId);
+            var user = await GetByIdAsync(request.UserId);
+
+            user.Role = role;
+            user.RoleId = role.Id;
+
+            await SaveChanges();
+
+            return Mapper.Map<User, UserWithRoleDto>(user);
+        }
+
+        private async Task<UserWithRoleDto> ChangeUserAccountStateAsync(int id, bool isActive)
+        {
+            var user = await GetByIdAsync(id);
+
+            this.userValidationService.ValidateUnlockUserAccount(user);
+
+            user.IsActive = isActive;
+
+            await SaveChanges();
+
+            return Mapper.Map<User, UserWithRoleDto>(user);
         }
     }
 }

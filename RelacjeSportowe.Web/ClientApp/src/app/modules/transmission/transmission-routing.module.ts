@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { Constants } from "src/app/app.constants";
 import { TransmissionDashboardComponent } from "./components/transmission-dashboard/transmission-dashboard.component";
-import { TransmissionComponent } from "./components/transmission/transmission.component";
+import { TransmissionComponent } from "./transmission.component";
 
 const routes: Routes = [
   {

@@ -53,7 +53,11 @@ export class RegisterComponent {
 
     if (this.registerFormGroup.valid) {
       this.formSubmissionInProgress = true;
-      this.userService.register(new RegisterUserRequest(this.registerFormGroup.getRawValue()))
+
+      const registerUserRequest = new RegisterUserRequest(this.registerFormGroup.getRawValue());
+      registerUserRequest.password = this.password.value;
+
+      this.userService.register(new RegisterUserRequest(registerUserRequest))
         .subscribe((response) => {
           console.log(response);
           this.router.navigateByUrl("/Home");

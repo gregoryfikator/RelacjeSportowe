@@ -4,6 +4,7 @@ using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.DataAccess.Dtos;
 using RelacjeSportowe.DataAccess.Dtos.Requests;
 using RelacjeSportowe.DataAccess.Dtos.Responses;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RelacjeSportowe.Web.Controllers
@@ -19,7 +20,22 @@ namespace RelacjeSportowe.Web.Controllers
             this.userService = userService;
         }
 
-        [Authorize("User")]
+        [Authorize(Policy = "Administrator")]
+        [HttpPost("[action]")]
+        public async Task<int> Delete([FromBody] int id)
+        {
+            await this.userService.DeleteUserAsync(id);
+            return id;
+        }
+
+        [Authorize(Policy = "Administrator")]
+        [HttpGet("[action]")]
+        public IEnumerable<UserWithRoleDto> GetUsers()
+        {
+            return this.userService.GetUsers();
+        }
+
+        [Authorize(Policy = "User")]
         [HttpGet("[action]")]
         public UserDto Get()
         {
@@ -31,6 +47,13 @@ namespace RelacjeSportowe.Web.Controllers
         public async Task<UserDto> GetById([FromQuery]int id)
         {
             return await this.userService.GetUserAsync(id);
+        }
+
+        [Authorize(Policy = "Moderator")]
+        [HttpPost("[action]")]
+        public async Task<UserWithRoleDto> LockUserAccount([FromBody] int id)
+        {
+            return await this.userService.LockUserAccountAsync(id);
         }
 
         [AllowAnonymous]
@@ -52,6 +75,20 @@ namespace RelacjeSportowe.Web.Controllers
         public async Task<LoginUserResponse> SilentLogin()
         {
             return await this.userService.SilentLoginAsync();
+        }
+
+        [Authorize(Policy = "Moderator")]
+        [HttpPost("[action]")]
+        public async Task<UserWithRoleDto> UnlockUserAccount([FromBody] int id)
+        {
+            return await this.userService.UnlockUserAccountAsync(id);
+        }
+
+        [Authorize(Policy = "Administrator")]
+        [HttpGet("[action]")]
+        public async Task<UserWithRoleDto> UpdateUserRole([FromBody] UpdateUserRoleRequest updateUserRoleRequest)
+        {
+            return await this.userService.UpdateUserRoleAsync(updateUserRoleRequest);
         }
     }
 }

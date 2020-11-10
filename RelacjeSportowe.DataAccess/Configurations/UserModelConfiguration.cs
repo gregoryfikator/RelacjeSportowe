@@ -14,7 +14,13 @@ namespace RelacjeSportowe.DataAccess.Configurations
 
             builder.HasOne(x => x.Role)
                 .WithOne()
-                .HasForeignKey<User>(x => x.RoleId);
+                .HasForeignKey<User>(x => x.RoleId)
+                .IsRequired();
+
+            builder.HasMany(x => x.Transmissions)
+                .WithOne(t => t.User)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
             builder.HasIndex(x => new { x.Email, x.Username })
                 .IsUnique();

@@ -13,6 +13,10 @@ export class UserInfoMenuItemComponent implements OnInit {
 
   public faUser: IconDefinition = faUser;
 
+  public get username() {
+    return this.authorizationService.getCurrentUser().value.username;
+  }
+
   constructor(private router: Router,
     private authorizationService: AuthorizationService) {
     }

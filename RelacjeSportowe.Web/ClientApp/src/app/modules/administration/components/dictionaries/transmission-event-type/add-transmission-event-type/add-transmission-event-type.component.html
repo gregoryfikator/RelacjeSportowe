@@ -1,0 +1,25 @@
+<form class="login-form w-100"
+      [formGroup]="transmissionEventForm"
+      (ngSubmit)="onSubmit()">
+  <app-modal-panel panelTitle="Dodaj typ zdarzenia">
+
+    <app-form-input type="text"
+                    idPrefix="value"
+                    [formCtrl]="value"
+                    label="Nazwa zdarzenia">
+      <div validation
+           *ngIf="submitted && value.errors"
+           class="invalid-feedback">
+        <div *ngIf="value.errors.required">Nazwa zdarzenia jest wymagana</div>
+      </div>
+    </app-form-input>
+
+    <div footer>
+      <button type="submit"
+              class="btn btn-success">
+        Dodaj
+      </button>
+    </div>
+  </app-modal-panel>
+
+</form>

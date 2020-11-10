@@ -1,1 +1,11 @@
-<p>administration-dashboard works!</p>
+<div class="row">
+  <div class="col-4">
+    <app-module-panel text="Użytkownicy" (click)="routeToUsers()"></app-module-panel>
+  </div>
+  <div class="col-4">
+    <app-module-panel text="Transmisje" (click)="routeToTransmissions()"></app-module-panel>
+  </div>
+  <div class="col-4">
+    <app-module-panel text="Słownik zdarzeń" (click)="routeToEventsDictionary()"></app-module-panel>
+  </div>
+</div>

@@ -16,6 +16,9 @@ export class AuthorizeInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    if (!req.url.includes("i18n")) {
+
     req = req.clone({
       url: Constants.ApiAddress + req.url,
       withCredentials: true
@@ -38,6 +41,9 @@ export class AuthorizeInterceptor implements HttpInterceptor {
           }
         })
       );
+    }
+
+    return next.handle(req);
   }
 
   private processRequestWithToken(token: string, req: HttpRequest<any>, next: HttpHandler) {

@@ -11,9 +11,11 @@
 
         public class ErrorCodes
         {
+            public const int InsufficientPermissions = 1000;
             public const int EmailAlreadyExists = 1001;
             public const int UsernameAlreadyExists = 1002;
             public const int UserNotFound = 1003;
+            public const int UserAccountLocked = 1004;
         }
 
         public class Configuration

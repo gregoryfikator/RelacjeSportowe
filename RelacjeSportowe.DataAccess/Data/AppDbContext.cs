@@ -7,19 +7,23 @@ using RelacjeSportowe.DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace RelacjeSportowe.DataAccess.Data
 {
     public class AppDbContext : DbContext
     {
+        //Migration command:
+        //Add-Migration MigrationName -OutputDir "Data/Migrations"
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Transmission> Transmissions { get; set; }
+        public virtual DbSet<TransmissionEvent> TransmissionEvents { get; set; }
+        public virtual DbSet<TransmissionEventType> TransmissionEventTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,19 +31,13 @@ namespace RelacjeSportowe.DataAccess.Data
 
             modelBuilder.ApplyConfiguration(new RoleModelConfiguration());
 
+            modelBuilder.ApplyConfiguration(new TransmissionModelConfiguration());
+
+            modelBuilder.ApplyConfiguration(new TransmissionEventModelConfiguration());
+
+            modelBuilder.ApplyConfiguration(new TransmissionEventTypeModelConfiguration());
+
             modelBuilder.SeedRolesTable();
-        }
-
-        public override int SaveChanges()
-        {
-            var auditableChanges = GetAuditableChanges();
-
-            if (auditableChanges.Any())
-            {
-                SaveAuditInformation(auditableChanges);
-            }
-
-            return base.SaveChanges();
         }
 
         public async Task<int> SaveChangesAsync(User currentUser)
@@ -62,10 +60,9 @@ namespace RelacjeSportowe.DataAccess.Data
         }
 
         private void SaveAuditInformation(IEnumerable<EntityEntry<IAuditable>> auditableChanges,
-            User currentUser = null)
+            User currentUser)
         {
-            var username = currentUser != null ? currentUser.Username : Thread.CurrentPrincipal.Identity.Name;
-            var userId = currentUser != null ? currentUser.Id : Users.First(user => user.Username == username).Id; 
+            var userId = currentUser.Id; 
 
             foreach (var auditableChange in auditableChanges)
             {

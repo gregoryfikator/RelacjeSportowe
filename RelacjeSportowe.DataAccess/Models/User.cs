@@ -2,6 +2,7 @@
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace RelacjeSportowe.DataAccess.Models
 {
@@ -15,16 +16,6 @@ namespace RelacjeSportowe.DataAccess.Models
 
         public int RatingPoints { get; set; }
 
-        public int RoleId { get; set; }
-
-        public Role Role { get; set; }
-
-        [JsonIgnore]
-        public AuthorizationRole AuthorizationRole
-        {
-            get { return (AuthorizationRole)RoleId; }
-        }
-
         public bool IsActive { get; set; }
 
         public DateTime LastLoginDate { get; set; }
@@ -34,5 +25,17 @@ namespace RelacjeSportowe.DataAccess.Models
         public byte[] RefreshToken { get; set; }
 
         public byte[] HashedPassword { get; set; }
+
+        public Role Role { get; set; }
+
+        public int RoleId { get; set; }
+
+        [JsonIgnore]
+        public AuthorizationRole AuthorizationRole
+        {
+            get { return (AuthorizationRole)RoleId; }
+        }
+
+        public virtual ICollection<Transmission> Transmissions { get; set; }
     }
 }

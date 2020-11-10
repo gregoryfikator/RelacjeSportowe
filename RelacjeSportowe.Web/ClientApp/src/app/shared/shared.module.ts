@@ -9,28 +9,37 @@ import { FormInputComponent } from './components/controls/form-input/form-input.
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PasswordInputComponent } from './components/controls/password-input/password-input.component';
+import { AngularSlickgridModule } from 'angular-slickgrid';
+import { ModalPanelComponent } from './components/modal-panel/modal-panel.component';
+import { ModulePanelComponent } from './components/module-panel/module-panel.component';
 
 @NgModule({
   declarations: [
     AutoSpinnerComponent,
     FormInputComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    ModalPanelComponent,
+    ModulePanelComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AngularSlickgridModule
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
     FontAwesomeModule,
+    AngularSlickgridModule,
     AutoSpinnerComponent,
     FormInputComponent,
     PasswordInputComponent,
+    ModalPanelComponent,
+    ModulePanelComponent
   ],
   entryComponents: [
 

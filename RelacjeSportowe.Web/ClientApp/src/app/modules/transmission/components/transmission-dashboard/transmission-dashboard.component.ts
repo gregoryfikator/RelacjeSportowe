@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TransmissionHubService } from 'src/app/shared/services/transmission-hub.service';
 
 @Component({
   selector: 'app-transmission-dashboard',
@@ -7,9 +8,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransmissionDashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private transmissionHubService: TransmissionHubService) { }
 
   ngOnInit() {
   }
 
+  public startConnection() {
+    this.transmissionHubService.startConnection();
+  }
+
+  public sendTestMessage() {
+    this.transmissionHubService.sendTestMessage();
+  }
+
+  public sendTransmissionEvent() {
+    this.transmissionHubService.sendTransmissionEvent();
+  }
+
+  public addToGroup() {
+    this.transmissionHubService.addToGroup();
+  }
+
+  public removeFromGroup() {
+    this.transmissionHubService.removeFromGroup();
+  }
+
+  public closeConnection() {
+    this.transmissionHubService.closeConnection();
+  }
 }

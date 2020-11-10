@@ -52,6 +52,81 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.Transmission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TeamAway")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeamHome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transmissions");
+                });
+
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.TransmissionEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TimeInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TransmissionEventTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransmissionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransmissionEventTypeId");
+
+                    b.HasIndex("TransmissionId");
+
+                    b.ToTable("TransmissionEvents");
+                });
+
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.TransmissionEventType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransmissionEventTypes");
+                });
+
             modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -99,6 +174,30 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.Transmission", b =>
+                {
+                    b.HasOne("RelacjeSportowe.DataAccess.Models.User", "User")
+                        .WithMany("Transmissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.TransmissionEvent", b =>
+                {
+                    b.HasOne("RelacjeSportowe.DataAccess.Models.TransmissionEventType", "TransmissionEventType")
+                        .WithMany()
+                        .HasForeignKey("TransmissionEventTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RelacjeSportowe.DataAccess.Models.Transmission", "Transmission")
+                        .WithMany("TransmissionEvents")
+                        .HasForeignKey("TransmissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.User", b =>

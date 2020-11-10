@@ -18,7 +18,13 @@ namespace RelacjeSportowe.Business.Providers
                 .ForMember(x => x.RoleId, o => o.MapFrom(a => (int)AuthorizationRole.User));
             CreateMap<LoginUserRequest, User>()
                 .ForMember(x => x.LastLoginDate, o => o.MapFrom(a => DateTime.UtcNow));
+
             CreateMap<User, UserDto>();
+            CreateMap<User, UserWithRoleDto>()
+                .ForMember(x => x.Role, o => o.MapFrom(a => a.Role.Value));
+
+            CreateMap<AddTransmissionEventTypeRequest, TransmissionEventType>();
+            CreateMap<EditTransmissionEventTypeRequest, TransmissionEventType>();
         }
     }
 }

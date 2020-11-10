@@ -35,7 +35,7 @@ export class AuthorizationService {
     this.currentUserRole.next(role);
   }
 
-  public aquireUser(response: any): void {
+  public acquireUser(response: any): void {
     this.jwtAccessTokenService.setToken(response.accessToken);
     this.setCurrentUser(new User(response.user));
     this.setUserRole(this.jwtAccessTokenService.getUserRole());
