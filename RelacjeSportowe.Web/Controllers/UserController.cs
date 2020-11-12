@@ -85,7 +85,7 @@ namespace RelacjeSportowe.Web.Controllers
         }
 
         [Authorize(Policy = "Administrator")]
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public async Task<UserWithRoleDto> UpdateUserRole([FromBody] UpdateUserRoleRequest updateUserRoleRequest)
         {
             return await this.userService.UpdateUserRoleAsync(updateUserRoleRequest);

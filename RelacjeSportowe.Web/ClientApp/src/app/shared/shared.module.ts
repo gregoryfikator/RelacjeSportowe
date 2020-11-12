@@ -12,6 +12,7 @@ import { PasswordInputComponent } from './components/controls/password-input/pas
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { ModalPanelComponent } from './components/modal-panel/modal-panel.component';
 import { ModulePanelComponent } from './components/module-panel/module-panel.component';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ModulePanelComponent } from './components/module-panel/module-panel.com
     FormInputComponent,
     PasswordInputComponent,
     ModalPanelComponent,
-    ModulePanelComponent
+    ModulePanelComponent,
+    DateAgoPipe
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { ModulePanelComponent } from './components/module-panel/module-panel.com
     FormInputComponent,
     PasswordInputComponent,
     ModalPanelComponent,
-    ModulePanelComponent
+    ModulePanelComponent,
+    DateAgoPipe
   ],
   entryComponents: [
 

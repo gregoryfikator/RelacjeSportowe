@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Constants } from 'src/app/app.constants';
 import { AddTransmissionEventTypeRequest, EditTransmissionEventTypeRequest } from 'src/app/models/dtos/requests/transmission-event-type-request';
+import { Transmission } from 'src/app/models/transmission';
 import { TransmissionEventType } from 'src/app/models/transmission-event-type';
 
 @Injectable({
@@ -20,6 +21,27 @@ export class TransmissionService {
 
   public editTransmissionEventType(request: EditTransmissionEventTypeRequest): Observable<any> {
     return this.httpClient.post(Constants.Endpoints.Transmission.EditTransmissionEventType, request);
+  }
+
+  public getMyTransmissions(): Observable<Transmission[]> {
+    return this.httpClient.get<Transmission[]>(Constants.Endpoints.Transmission.GetMyTransmissions)
+      .pipe(
+        take(1)
+      );
+  }
+
+  public getNewestTransmissions(): Observable<Transmission[]> {
+    return this.httpClient.get<Transmission[]>(Constants.Endpoints.Transmission.GetNewestTransmissions)
+      .pipe(
+        take(1)
+      );
+  }
+
+  public getTopTransmissions(): Observable<Transmission[]> {
+    return this.httpClient.get<Transmission[]>(Constants.Endpoints.Transmission.GetTopTransmissions)
+      .pipe(
+        take(1)
+      );
   }
 
   public getTransmissionEventTypes(): Observable<TransmissionEventType[]> {

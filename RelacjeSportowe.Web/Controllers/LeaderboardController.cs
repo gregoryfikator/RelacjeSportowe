@@ -21,5 +21,11 @@ namespace RelacjeSportowe.Web.Controllers
         {
             return this.leaderboardService.GetStandings();
         }
+
+        [HttpGet("[action]")]
+        public IEnumerable<LeaderboardPositionDto> GetTopStandings()
+        {
+            return this.leaderboardService.GetTopStandings();
+        }
     }
 }

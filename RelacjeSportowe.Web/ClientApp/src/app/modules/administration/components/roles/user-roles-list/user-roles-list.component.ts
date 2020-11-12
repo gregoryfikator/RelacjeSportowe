@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/app.constants';
 import { UserWithRole } from 'src/app/models/user-with-role';
+import { RoutingStorageService } from 'src/app/shared/services/routing-storage.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class UserRolesListComponent implements OnInit {
 
   constructor(private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private routingStorageService: RoutingStorageService) {
       this.users$ = this.userService.getUsers();
     }
 
@@ -32,8 +34,8 @@ export class UserRolesListComponent implements OnInit {
   }
 
   public editUserRole(user: UserWithRole): void {
+    this.routingStorageService.storage = user;
     this.router.navigate([Constants.Routing.AdministrationPaths.ChangeUserRole], {
-      queryParams: { userId: user.id, currentRoleId: user.roleId },
       relativeTo: this.route
     });
   }

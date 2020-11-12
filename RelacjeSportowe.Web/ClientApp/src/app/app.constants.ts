@@ -21,8 +21,12 @@ export class Constants {
     }
 
     public static readonly TransmissionPaths = class {
+      public static readonly AddTransmission = "AddTransmission";
       public static readonly AllTransmissions = "AllTransmissions";
       public static readonly Dashboard = "Dashboard";
+      public static readonly EditTransmission = "EditTransmission";
+      public static readonly LiveTransmission = "LiveTransmission";
+      public static readonly MyTransmissions = "MyTransmissions";
     }
 
     public static readonly AdministrationPaths = class {
@@ -38,6 +42,7 @@ export class Constants {
   public static readonly Endpoints = class {
     public static readonly Leaderboard = class {
       public static readonly GetStandings = "Leaderboard/GetStandings";
+      public static readonly GetTopStandings = "Leaderboard/GetTopStandings";
     }
 
     public static readonly Roles = class {
@@ -59,6 +64,9 @@ export class Constants {
     public static readonly Transmission = class {
       public static readonly AddTransmissionEventType = "Transmission/AddTransmissionEventType";
       public static readonly EditTransmissionEventType = "Transmission/EditTransmissionEventType";
+      public static readonly GetMyTransmissions = "Transmission/GetMyTransmissions";
+      public static readonly GetNewestTransmissions = "Transmission/GetNewestTransmissions";
+      public static readonly GetTopTransmissions = "Transmission/GetTopTransmissions";
       public static readonly GetTransmissionEventTypes = "Transmission/GetTransmissionEventTypes";
     }
   }

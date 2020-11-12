@@ -6,5 +6,7 @@ namespace RelacjeSportowe.Business.Interfaces.Services
     public interface ILeaderboardService
     {
         IEnumerable<LeaderboardPositionDto> GetStandings();
+
+        IEnumerable<LeaderboardPositionDto> GetTopStandings();
     }
 }

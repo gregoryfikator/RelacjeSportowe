@@ -1,13 +1,12 @@
-﻿using RelacjeSportowe.Transmission.Interfaces;
+﻿using RelacjeSportowe.Business.Interfaces.Hubs;
 using System.Collections.Generic;
 
-namespace RelacjeSportowe.Transmission.Services
+namespace RelacjeSportowe.Business.Services
 {
     public class TransmissionHubService : ITransmissionHubService
     {
-        private readonly Dictionary<string, int> ConnectedUsersCount = new Dictionary<string, int>();
-
-        public void AddViewer(string groupName)
+        private Dictionary<string, int> ConnectedUsersCount = new Dictionary<string, int>();
+        public void AddViewer(string connectionId, string groupName)
         {
             if (!ConnectedUsersCount.ContainsKey(groupName))
             {
@@ -35,7 +34,7 @@ namespace RelacjeSportowe.Transmission.Services
             return viewersCounts;
         }
 
-        public void RemoveViewer(string groupName)
+        public void RemoveViewer(string connectionId, string groupName)
         {
             ConnectedUsersCount[groupName] -= 1;
 

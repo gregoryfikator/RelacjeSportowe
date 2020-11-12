@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RelacjeSportowe.Business\RelacjeSportowe.Business.csproj" />
-    <ProjectReference Include="..\RelacjeSportowe.Transmission\RelacjeSportowe.TransmissionHub.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

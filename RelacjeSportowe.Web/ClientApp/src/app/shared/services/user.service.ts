@@ -90,8 +90,8 @@ export class UserService {
       );
   }
 
-  public updateUserRole(request: UpdateUserRoleRequest): Observable<any> {
-    return this.httpClient.post(Constants.Endpoints.User.UpdateUserRole, request)
+  public updateUserRole(updateUserRoleRequest: UpdateUserRoleRequest): Observable<any> {
+    return this.httpClient.post(Constants.Endpoints.User.UpdateUserRole, updateUserRoleRequest)
       .pipe(
         take(1)
       );

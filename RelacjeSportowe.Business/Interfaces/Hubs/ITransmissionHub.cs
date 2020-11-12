@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace RelacjeSportowe.Transmission.Interfaces
+namespace RelacjeSportowe.Business.Interfaces.Hubs
 {
     public interface ITransmissionHub
     {

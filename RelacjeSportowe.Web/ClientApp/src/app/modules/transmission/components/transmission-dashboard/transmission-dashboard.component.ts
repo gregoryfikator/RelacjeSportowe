@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AddTransmissionEventRequest, UpdateTransmissionEventRequest } from 'src/app/models/dtos/requests/transmission-event-request';
 import { TransmissionHubService } from 'src/app/shared/services/transmission-hub.service';
 
 @Component({
@@ -17,20 +18,22 @@ export class TransmissionDashboardComponent implements OnInit {
     this.transmissionHubService.startConnection();
   }
 
-  public sendTestMessage() {
-    this.transmissionHubService.sendTestMessage();
+  public sendTransmissionEvent() {
+    const transmissionEvent = new AddTransmissionEventRequest({});
+    this.transmissionHubService.sendTransmissionEvent(transmissionEvent);
   }
 
-  public sendTransmissionEvent() {
-    this.transmissionHubService.sendTransmissionEvent();
+  public sendTransmissionEventUpdate() {
+    const transmissionEvent = new UpdateTransmissionEventRequest({});
+    this.transmissionHubService.sendTransmissionEvent(transmissionEvent);
   }
 
   public addToGroup() {
-    this.transmissionHubService.addToGroup();
+    this.transmissionHubService.subscribeTransmission(0);
   }
 
   public removeFromGroup() {
-    this.transmissionHubService.removeFromGroup();
+    this.transmissionHubService.unsubscribeTransmission(0);
   }
 
   public closeConnection() {

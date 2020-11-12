@@ -3,6 +3,7 @@ using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.DataAccess.Dtos;
 using RelacjeSportowe.DataAccess.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RelacjeSportowe.Business.Services
 {
@@ -16,7 +17,9 @@ namespace RelacjeSportowe.Business.Services
 
         public IEnumerable<RoleDto> GetAllRoles()
         {
-            return Mapper.Map<IEnumerable<Role>, IEnumerable<RoleDto>>(Context.Roles);
+            return Context.Roles
+                .Select(x => Mapper.Map<Role, RoleDto>(x))
+                .AsEnumerable();
         }
     }
 }

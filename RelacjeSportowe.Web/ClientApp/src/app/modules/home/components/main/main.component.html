@@ -2,9 +2,9 @@
   <div class="side-column left-column order-2 order-xl-1 col-xl-3 col-12">
     <div class="side-column-panel col-4 col-xl-12">
       <h5>Na skróty</h5>
-      <p>Przeglądaj transmisje</p>
-      <p>Rozpocznij transmisje</p>
-      <p>Moje transmisje</p>
+      <p (click)="navigateAllTransmissions()">Przeglądaj transmisje</p>
+      <p (click)="navigateAddTransmission()">Rozpocznij transmisje</p>
+      <p (click)="navigateMyTransmissions()">Moje transmisje</p>
     </div>
   </div>
 
@@ -15,30 +15,27 @@
   <div class="side-column right-column order-3 col-xl-3 col-12">
     <div class="side-column-panel col-xl-12">
       <h5>Najnowsze transmisje</h5>
-      <p>Aston Villa - Leeds United <br /> nickname, 5 min. temu</p>
-      <p>Nottingham Forest - Derby County<br /> nickname, 22 min. temu</p>
-      <p>Ruch Chorzów - Zagłębie Lubin II <br /> nickname, 2 dni temu</p>
+      <p *ngFor="let newestTransmission of newestTransmissions$ | async">
+        {{newestTransmission.teamHome}} - {{newestTransmission.teamHome}}
+        <br />
+        {{newestTransmission.username}}, {{newestTransmission.startDate | dateAgo}}
+      </p>
     </div>
 
     <div class="side-column-panel col-xl-12">
       <h5>Popularne transmisje</h5>
-      <p>Aston Villa - Leeds United <br /> nickname, x widzów</p>
-      <p>Nottingham Forest - Derby County<br /> nickname, x widzów</p>
-      <p>Ruch Chorzów - Zagłębie Lubin II <br /> nickname, x widzów</p>
+      <p *ngFor="let topTransmission of topTransmissions$ | async">
+        {{topTransmission.teamHome}} - {{topTransmission.teamHome}}
+        <br />
+        {{topTransmission.username}}, {{topTransmission.viewersCount}} widzów
+      </p>
     </div>
 
     <div class="side-column-panel col-xl-12">
       <h5>Top 10 użytkowników</h5>
-      <p>1. nickname - x punktów</p>
-      <p>2. nickname - x punktów</p>
-      <p>3. nickname - x punktów</p>
-      <p>4. nickname - x punktów</p>
-      <p>5. nickname - x punktów</p>
-      <p>6. nickname - x punktów</p>
-      <p>7. nickname - x punktów</p>
-      <p>8. nickname - x punktów</p>
-      <p>9. nickname - x punktów</p>
-      <p>10. nickname - x punktów</p>
+      <p *ngFor="let standing of standings$ | async">
+        {{standing.position}}. {{standing.username}} - {{standing.ratingPoints}} pkt.
+      </p>
     </div>
   </div>
 </div>

@@ -1,1 +1,21 @@
-<p>change-user-role works!</p>
+<form class="login-form w-100"
+      [formGroup]="changeUserRoleForm"
+      (ngSubmit)="onSubmit()">
+  <app-modal-panel panelTitle="Edycja roli użytkownika - {{user.username}}" >
+
+    <select formControlName="roleId">
+      <option *ngFor="let role of roles$ | async"
+              [ngValue]="role.id">
+        {{role.value}}
+      </option>
+    </select>
+
+    <div footer>
+      <button type="submit"
+              class="btn btn-success">
+        Zapisz
+      </button>
+    </div>
+  </app-modal-panel>
+
+</form>

@@ -18,4 +18,11 @@ export class LeaderboardService {
         take(1)
       );
   }
+
+  public getTopStandings(): Observable<any> {
+    return this.httpClient.get(Constants.Endpoints.Leaderboard.GetTopStandings)
+      .pipe(
+        take(1)
+      );
+  }
 }

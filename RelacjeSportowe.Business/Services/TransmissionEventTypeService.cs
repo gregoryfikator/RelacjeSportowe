@@ -20,9 +20,9 @@ namespace RelacjeSportowe.Business.Services
             return await base.AddAsync(transmissionEventType);
         }
 
-        public async Task<TransmissionEventType> EditTransmissionEventTypeAsync(EditTransmissionEventTypeRequest request)
+        public async Task<TransmissionEventType> EditTransmissionEventTypeAsync(UpdateTransmissionEventTypeRequest request)
         {
-            var transmissionEventType = Mapper.Map<EditTransmissionEventTypeRequest, TransmissionEventType>(request);
+            var transmissionEventType = Mapper.Map<UpdateTransmissionEventTypeRequest, TransmissionEventType>(request);
             return await base.UpdateAsync(transmissionEventType);
         }
 

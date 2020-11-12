@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace RelacjeSportowe.Transmission.Interfaces
+namespace RelacjeSportowe.Business.Interfaces.Hubs
 {
     public interface ITransmissionHubService
     {
-        void AddViewer(string groupName);
+        void AddViewer(string connectionId, string groupName);
 
         int GetViewersCount(string groupName);
 
         IEnumerable<int> GetViewersCounts(IEnumerable<string> groupNames);
 
-        void RemoveViewer(string groupName);
+        void RemoveViewer(string connectionId, string groupName);
     }
 }

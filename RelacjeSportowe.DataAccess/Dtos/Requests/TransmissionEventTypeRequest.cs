@@ -9,7 +9,7 @@
     {
     }
 
-    public class EditTransmissionEventTypeRequest : TransmissionEventTypeRequest
+    public class UpdateTransmissionEventTypeRequest : TransmissionEventTypeRequest
     {
         public int Id { get; set; }
     }

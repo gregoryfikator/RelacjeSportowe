@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { AddTransmissionEventRequest, UpdateTransmissionEventRequest } from 'src/app/models/dtos/requests/transmission-event-request';
+import { TransmissionEvent } from 'src/app/models/transmission-event';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -24,16 +26,8 @@ export class TransmissionHubService {
       .start()
       .then(() => {
         console.log("connection started");
-
-        this.hubConnection.on("TestModelReceived",
-          (response) => {
-            console.log("RECEIVED MESSAGE: " + response);
-          });
-
-        this.hubConnection.on("TransmissionEventReceived",
-          (response) => {
-            console.log("RECEIVED TRANSMISSION EVENT: " + response);
-          });
+        this.hubConnection.on("TransmissionEventReceived", this.onTransmissionEventReceived);
+        this.hubConnection.on("TransmissionEventUpdateReceived", this.onTransmissionEventUpdateReceived);
       })
       .catch((error) => {
         console.log("connection error: " + error);
@@ -45,59 +39,59 @@ export class TransmissionHubService {
       .stop()
       .then(() => {
         console.log("connection finished");
-
-        this.hubConnection.off("TestModelReceived",
-          (response) => {
-            console.log("RECEIVED MESSAGE: " + response);
-          });
-
-        this.hubConnection.off("TransmissionEventReceived",
-          (response) => {
-            console.log("RECEIVED TRANSMISSION EVENT: " + response);
-          });
+        this.hubConnection.off("TransmissionEventReceived", this.onTransmissionEventReceived);
+        this.hubConnection.off("TransmissionEventUpdateReceived", this.onTransmissionEventUpdateReceived);
       })
       .catch((error) => {
         console.log("connection error: " + error);
       });
   }
 
-  public addToGroup() {
-    this.hubConnection.invoke("AddToGroup", "testGroup")
+  public subscribeTransmission(transmissionId: number) {
+    this.hubConnection.invoke("SubscribeTransmission", transmissionId)
       .then(() => {
-        console.log("Added to testGroup");
+        console.log("Transmission subscribed!");
       })
       .catch((error) => {
-        console.log("Unable to add to group: " + error);
+        console.log("Unable to subscribe transmission: " + error);
       });
   }
 
-  public removeFromGroup() {
-    this.hubConnection.invoke("RemoveFromGroup", "testGroup")
+  public unsubscribeTransmission(transmissionId: number) {
+    this.hubConnection.invoke("UnsubscribeTransmission", transmissionId)
       .then(() => {
-        console.log("Removed from testGroup");
+        console.log("Transmission unsubscribed!");
       })
       .catch((error) => {
-        console.log("Unable to remove from group: " + error);
+        console.log("Unable to unsubscribe transmission: " + error);
       });
   }
 
-  public sendTestMessage() {
-    this.hubConnection.invoke("BroadcastTestModel", { message: "wiadomość testowa" })
-      .then(() => {
-        console.log("Test message successfully broadcasted!");
-      })
-      .catch((error) => {
-        console.log("Unable to send test message: " + error);
-      });
-  }
-
-  public sendTransmissionEvent() {
-    this.hubConnection.invoke("BroadcastTransmissionEvent", "testGroup")
+  public sendTransmissionEvent(request: AddTransmissionEventRequest) {
+    this.hubConnection.invoke("BroadcastTransmissionEvent", request)
       .then(() => {
         console.log("Transmission Event successfully broadcasted!");
       })
       .catch((error) => {
         console.log("Unable to send Transmission Event: " + error);
       });
+  }
+
+  public sendTransmissionEventUpdate(request: UpdateTransmissionEventRequest) {
+    this.hubConnection.invoke("BroadcastTransmissionEventUpdate", request)
+      .then(() => {
+        console.log("Transmission Event Update successfully broadcasted!");
+      })
+      .catch((error) => {
+        console.log("Unable to send Transmission Event Update: " + error);
+      });
+  }
+
+  private onTransmissionEventReceived(response: TransmissionEvent) {
+    console.log("RECEIVED TRANSMISSION EVENT: " + response);
+  }
+
+  private onTransmissionEventUpdateReceived(response: TransmissionEvent) {
+    console.log("RECEIVED TRANSMISSION EVENT: " + response);
   }
 }

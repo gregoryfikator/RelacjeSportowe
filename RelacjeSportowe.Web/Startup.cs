@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using RelacjeSportowe.Business.Configurations;
+using RelacjeSportowe.Business.Hubs;
+using RelacjeSportowe.Business.Interfaces.Hubs;
 using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.Business.Interfaces.Validators;
@@ -22,9 +24,6 @@ using RelacjeSportowe.Business.Validators;
 using RelacjeSportowe.DataAccess.Data;
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.Services;
-using RelacjeSportowe.Transmission.Hubs;
-using RelacjeSportowe.Transmission.Interfaces;
-using RelacjeSportowe.Transmission.Services;
 using RelacjeSportowe.Web.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -244,6 +243,7 @@ namespace RelacjeSportowe.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILeaderboardService, LeaderboardService>();
             services.AddScoped<ITransmissionEventTypeService, TransmissionEventTypeService>();
+            services.AddScoped<ITransmissionService, TransmissionService>();
         }
 
         private void ConfigureValidationServices(IServiceCollection services)

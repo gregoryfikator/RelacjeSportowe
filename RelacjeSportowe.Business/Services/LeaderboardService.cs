@@ -18,6 +18,7 @@ namespace RelacjeSportowe.Business.Services
         {
             var usersWithTransmissions = Context.Users
                 .Include(x => x.Transmissions)
+                .Where(x => x.IsActive)
                 .Select(x => new
                 {
                     x.Id,
@@ -26,6 +27,39 @@ namespace RelacjeSportowe.Business.Services
                     Transmissions = x.Transmissions.Select(y => new { y.EndDate })
                 })
                 .OrderByDescending(x => x.RatingPoints)
+                .AsEnumerable();
+
+            var result = usersWithTransmissions
+                .GroupBy(x => x.RatingPoints)
+                .Select((group, index) => new LeaderboardPositionDto
+                {
+                    Position = index + 1,
+                    RatingPoints = group.Key,
+                    LeaderboardUserEntries = group.Select(x => new LeaderboardUserEntryDto
+                    {
+                        UserId = x.Id,
+                        Username = x.Username,
+                        IsTransmitting = x.Transmissions.Any(x => x.EndDate == null)
+                    })
+                });
+
+            return result;
+        }
+
+        public IEnumerable<LeaderboardPositionDto> GetTopStandings()
+        {
+            var usersWithTransmissions = Context.Users
+                .Include(x => x.Transmissions)
+                .Where(x => x.IsActive)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Username,
+                    x.RatingPoints,
+                    Transmissions = x.Transmissions.Select(y => new { y.EndDate })
+                })
+                .OrderByDescending(x => x.RatingPoints)
+                .Take(10)
                 .AsEnumerable();
 
             var result = usersWithTransmissions

@@ -18,7 +18,7 @@ namespace RelacjeSportowe.Web.Controllers
             this.roleService = roleService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public IEnumerable<RoleDto> GetAll()
         {
             return this.roleService.GetAllRoles();
