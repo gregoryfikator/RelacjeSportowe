@@ -12,7 +12,7 @@ export class AddTransmissionEventTypeRequest extends TransmissionEventTypeReques
   }
 }
 
-export class EditTransmissionEventTypeRequest extends TransmissionEventTypeRequest {
+export class UpdateTransmissionEventTypeRequest extends TransmissionEventTypeRequest {
   public id: number;
 
   constructor(data: any) {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { ApiAuthorizationModule } from './modules/api-authorization/api-authorization.module';
@@ -9,8 +9,10 @@ import { AppComponent } from './app.component';
 import { AuthorizeInterceptor } from './modules/api-authorization/authorize.interceptor';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LOCATION_INITIALIZED } from '@angular/common';
+import { DatePipe, LOCATION_INITIALIZED } from '@angular/common';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -41,6 +43,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({      loader: {
       provide: TranslateLoader,
@@ -49,6 +52,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     }}),
     AngularSlickgridModule.forRoot(),
     SharedModule,
+    NgxSpinnerModule,
     HomeModule,
     ApiAuthorizationModule
   ],
@@ -60,7 +64,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       deps: [TranslateService, Injector],
       multi: true
     },
+    DatePipe,
+    NgxSpinnerService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

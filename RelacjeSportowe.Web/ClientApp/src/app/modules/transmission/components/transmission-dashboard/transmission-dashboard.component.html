@@ -1,5 +1,11 @@
-<button class="transparent-button bordered-button" (click)="startConnection()">Start connection</button>
-<button class="transparent-button bordered-button" (click)="sendTransmissionEvent()">Send Transmission Event</button>
-<button class="transparent-button bordered-button" (click)="addToGroup()">Add to group</button>
-<button class="transparent-button bordered-button" (click)="removeFromGroup()">Remove from group</button>
-<button class="transparent-button bordered-button" (click)="closeConnection()">Close connection</button>
+<div class="row">
+  <div class="col-4">
+    <app-module-panel text="Moje transmisje" (click)="routeToMyTransmissions()"></app-module-panel>
+  </div>
+  <div class="col-4">
+    <app-module-panel text="Wszystkie transmisje" (click)="routeToAllTransmissions()"></app-module-panel>
+  </div>
+  <div class="col-4">
+    <app-module-panel text="Nowa transmisja" (click)="routeToAddTransmission()"></app-module-panel>
+  </div>
+</div>

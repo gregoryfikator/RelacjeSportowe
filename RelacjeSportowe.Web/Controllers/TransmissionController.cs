@@ -6,7 +6,6 @@ using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.DataAccess.Dtos;
 using RelacjeSportowe.DataAccess.Dtos.Requests;
 using RelacjeSportowe.DataAccess.Models;
-//using RelacjeSportowe.TransmissionHub.Interfaces;
 
 namespace RelacjeSportowe.Web.Controllers
 {
@@ -15,15 +14,12 @@ namespace RelacjeSportowe.Web.Controllers
     public class TransmissionController : ControllerBase
     {
         private readonly ITransmissionService transmissionService;
-        //private readonly ITransmissionHubService transmissionHubService;
         private readonly ITransmissionEventTypeService transmissionEventTypeService;
 
         public TransmissionController(ITransmissionService transmissionService,
-           //ITransmissionHubService transmissionHubService,
             ITransmissionEventTypeService transmissionEventTypeService)
         {
             this.transmissionService = transmissionService;
-            //this.transmissionHubService = transmissionHubService;
             this.transmissionEventTypeService = transmissionEventTypeService;
         }
 
@@ -41,11 +37,18 @@ namespace RelacjeSportowe.Web.Controllers
             return await this.transmissionEventTypeService.AddTransmissionEventTypeAsync(request);
         }
 
-        [Authorize(Policy = "Moderator")]
+        [Authorize(Policy = "Administrator")]
         [HttpPost("[action]")]
-        public async Task<TransmissionEventType> EditTransmissionEventType([FromBody] UpdateTransmissionEventTypeRequest request)
+        public async Task DeleteTransmission([FromBody] DeleteTransmissionRequest request)
         {
-            return await this.transmissionEventTypeService.EditTransmissionEventTypeAsync(request);
+            await this.transmissionService.DeleteTransmissionAsync(request);
+        }
+
+        [Authorize(Policy = "User")]
+        [HttpPost("[action]")]
+        public async Task EndTransmission([FromBody] EndTransmissionRequest request)
+        {
+            await this.transmissionService.EndTransmissionAsync(request);
         }
 
         [HttpGet("[action]")]
@@ -84,16 +87,25 @@ namespace RelacjeSportowe.Web.Controllers
             return this.transmissionEventTypeService.GetTransmissionEventTypes();
         }
 
-        //[HttpGet("[action]")]
-        //public int GetViewersCount(string groupName)
-        //{
-        //    return this.transmissionHubService.GetViewersCount(groupName);
-        //}
+        [Authorize(Policy = "User")]
+        [HttpPost("[action]")]
+        public async Task<TransmissionDto> UpdateTransmission([FromBody] UpdateTransmissionRequest request)
+        {
+            return await this.transmissionService.UpdateTransmissionAsync(request);
+        }
 
-        //[HttpGet("[action]")]
-        //public IEnumerable<int> GetViewersCounts(IEnumerable<string> groupNames)
-        //{
-        //    return this.transmissionHubService.GetViewersCounts(groupNames);
-        //}
+        [Authorize(Policy = "Moderator")]
+        [HttpPost("[action]")]
+        public async Task<TransmissionEventType> UpdateTransmissionEventType([FromBody] UpdateTransmissionEventTypeRequest request)
+        {
+            return await this.transmissionEventTypeService.UpdateTransmissionEventTypeAsync(request);
+        }
+
+        [Authorize(Policy = "User")]
+        [HttpPost("[action]")]
+        public async Task VoteTransmission(VoteTransmissionRequest request)
+        {
+            await this.transmissionService.VoteTransmission(request);
+        }
     }
 }

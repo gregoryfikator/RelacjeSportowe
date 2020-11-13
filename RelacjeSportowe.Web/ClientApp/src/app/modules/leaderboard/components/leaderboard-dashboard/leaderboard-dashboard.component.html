@@ -1,16 +1,16 @@
-<table>
+<table class="w-100">
   <thead>
-    <th>Position</th>
-    <th>Username</th>
-    <th>Rating</th>
-    <th>Is transmitting</th>
+    <th>Pozycja</th>
+    <th>Użytkownik</th>
+    <th>Punkty</th>
+    <th>Transmituje?</th>
   </thead>
   <tbody>
     <tr *ngFor="let standing of standings$ | async">
       <td>{{standing.position}}</td>
       <td>{{standing.username}}</td>
       <td>{{standing.ratingPoints}}</td>
-      <td>{{standing.isTransmitting}}</td>
+      <td>{{standing.isTransmitting ? 'Tak' : 'Nie'}}</td>
     </tr>
   </tbody>
 </table>

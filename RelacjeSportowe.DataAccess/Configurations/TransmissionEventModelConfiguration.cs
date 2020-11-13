@@ -13,8 +13,7 @@ namespace RelacjeSportowe.DataAccess.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.TransmissionEventType)
-                .WithOne()
-                .HasForeignKey<TransmissionEvent>(x => x.TransmissionEventTypeId)
+                .WithMany(x => x.TrasmissionEvents)
                 .IsRequired();
         }
     }

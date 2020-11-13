@@ -6,6 +6,7 @@ namespace RelacjeSportowe.Business.Services
     public class TransmissionHubService : ITransmissionHubService
     {
         private Dictionary<string, int> ConnectedUsersCount = new Dictionary<string, int>();
+
         public void AddViewer(string connectionId, string groupName)
         {
             if (!ConnectedUsersCount.ContainsKey(groupName))
@@ -17,8 +18,11 @@ namespace RelacjeSportowe.Business.Services
         }
 
         public int GetViewersCount(string groupName)
-        {
-            return ConnectedUsersCount.TryGetValue(groupName, out int viewersCount) ? viewersCount : 0;
+        { 
+            var a = ConnectedUsersCount.TryGetValue(groupName, out int viewersCount);
+            if (a)
+                return viewersCount;
+            else return 0;
         }
 
         public IEnumerable<int> GetViewersCounts(IEnumerable<string> groupNames)

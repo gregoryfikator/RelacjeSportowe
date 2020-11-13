@@ -39,13 +39,13 @@ export class DateAgoPipe implements PipeTransform {
                 i = 'dzień';
                 break;
               case 'godzin':
-                i = 'godzina';
+                i = 'godzinę';
                 break;
               case 'minut':
-                i = 'minuta';
+                i = 'minutę';
                 break;
               case 'sekund':
-                i = 'sekunda';
+                i = 'sekundę';
                 break;
             }
           } else if (counter >= 2 && counter <= 4) {

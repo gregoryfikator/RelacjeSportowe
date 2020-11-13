@@ -9,7 +9,7 @@ namespace RelacjeSportowe.Business.Interfaces.Services
     {
         Task<TransmissionEventType> AddTransmissionEventTypeAsync(AddTransmissionEventTypeRequest request);
 
-        Task<TransmissionEventType> EditTransmissionEventTypeAsync(UpdateTransmissionEventTypeRequest request);
+        Task<TransmissionEventType> UpdateTransmissionEventTypeAsync(UpdateTransmissionEventTypeRequest request);
 
         IEnumerable<TransmissionEventType> GetTransmissionEventTypes();
     }

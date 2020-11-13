@@ -15,8 +15,9 @@
   <div class="side-column right-column order-3 col-xl-3 col-12">
     <div class="side-column-panel col-xl-12">
       <h5>Najnowsze transmisje</h5>
-      <p *ngFor="let newestTransmission of newestTransmissions$ | async">
-        {{newestTransmission.teamHome}} - {{newestTransmission.teamHome}}
+      <p *ngFor="let newestTransmission of newestTransmissions$ | async"
+         (click)="viewTransmission(newestTransmission)">
+        {{newestTransmission.teamHome}} - {{newestTransmission.teamAway}}
         <br />
         {{newestTransmission.username}}, {{newestTransmission.startDate | dateAgo}}
       </p>
@@ -24,10 +25,11 @@
 
     <div class="side-column-panel col-xl-12">
       <h5>Popularne transmisje</h5>
-      <p *ngFor="let topTransmission of topTransmissions$ | async">
-        {{topTransmission.teamHome}} - {{topTransmission.teamHome}}
+      <p *ngFor="let topTransmission of topTransmissions$ | async"
+         (click)="viewTransmission(topTransmission)">
+        {{topTransmission.teamHome}} - {{topTransmission.teamAway}}
         <br />
-        {{topTransmission.username}}, {{topTransmission.viewersCount}} widzów
+        {{topTransmission.username}}, {{topTransmission.viewersCount}} {{topTransmission.viewersCount === 1 ? 'widz' : 'widzów'}}
       </p>
     </div>
 

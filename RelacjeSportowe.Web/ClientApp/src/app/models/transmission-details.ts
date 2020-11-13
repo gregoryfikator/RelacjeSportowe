@@ -3,7 +3,6 @@ import { TransmissionEvent } from "./transmission-event";
 
 export class TransmissionDetails extends Transmission {
 
-  public endDate: Date;
   public userId: number;
   public ratingPoints: number;
   public isTransmitting: boolean;
@@ -11,7 +10,6 @@ export class TransmissionDetails extends Transmission {
 
   constructor(data: any) {
     super(data);
-    this.endDate = data.endDate;
     this.userId = data.userId;
     this.ratingPoints = data.ratingPoints;
     this.isTransmitting = data.isTransmitting;

@@ -1,1 +1,11 @@
-<p>live-transmission works!</p>
+<div *ngIf="isConnected else loading">
+  <app-live-transmission-caster-panel *ngIf="isOwner && !transmission.endDate"
+                                      [transmission]="transmission">
+  </app-live-transmission-caster-panel>
+  <app-live-transmission-panel>
+  </app-live-transmission-panel>
+</div>
+
+<ng-template #loading>
+  <app-auto-spinner></app-auto-spinner>
+</ng-template>

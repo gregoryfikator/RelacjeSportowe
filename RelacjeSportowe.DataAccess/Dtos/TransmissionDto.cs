@@ -6,6 +6,8 @@ namespace RelacjeSportowe.DataAccess.Dtos
     {
         public int Id { get; set; }
 
+        public DateTime? EndDate { get; set; }
+
         public DateTime EventDate { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -15,6 +17,8 @@ namespace RelacjeSportowe.DataAccess.Dtos
         public string TeamAway { get; set; }
 
         public string Username { get; set; }
+
+        public int UserId { get; set; }
 
         public int ViewersCount { get; set; }
     }

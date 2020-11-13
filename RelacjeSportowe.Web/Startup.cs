@@ -146,7 +146,12 @@ namespace RelacjeSportowe.Web
 
             services.AddSignalR();
 
-            services.AddControllersWithViews(); //.AddMvcCore().AddAuthorization();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                    options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ";
+                });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

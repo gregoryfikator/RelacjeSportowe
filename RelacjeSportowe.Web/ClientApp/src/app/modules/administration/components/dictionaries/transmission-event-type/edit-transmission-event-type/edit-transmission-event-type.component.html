@@ -1,11 +1,25 @@
-<app-modal-panel panelTitle="Edycja typu zdarzenia">
-  <div>
-    Formularz edycji
-  </div>
+<form class="login-form w-100"
+      [formGroup]="transmissionEventForm"
+      (ngSubmit)="onSubmit()">
+  <app-modal-panel panelTitle="Edycja typu zdarzenia">
 
-  <div footer>
-    <button type="submit" class="btn btn-success" (click)="submit()">
-      Edytuj
-    </button>
-  </div>
-</app-modal-panel>
+    <app-form-input type="text"
+                    idPrefix="value"
+                    [formCtrl]="value"
+                    label="Nazwa zdarzenia">
+      <div validation
+           *ngIf="submitted && value.errors"
+           class="invalid-feedback">
+        <div *ngIf="value.errors.required">Nazwa zdarzenia jest wymagana</div>
+      </div>
+    </app-form-input>
+
+    <div footer>
+      <button type="submit"
+              class="btn btn-success">
+        Edytuj
+      </button>
+    </div>
+  </app-modal-panel>
+
+</form>

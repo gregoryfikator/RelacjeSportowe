@@ -7,6 +7,7 @@ import { Transmission } from 'src/app/models/transmission';
 import { UserStanding } from 'src/app/models/user-standing';
 import { AuthorizationService } from 'src/app/modules/api-authorization/authorization.service';
 import { LeaderboardService } from 'src/app/shared/services/leaderboard.service';
+import { RoutingStorageService } from 'src/app/shared/services/routing-storage.service';
 import { TransmissionService } from 'src/app/shared/services/transmission.service';
 
 @Component({
@@ -23,7 +24,8 @@ export class MainComponent implements OnInit {
   constructor(private authorizationService: AuthorizationService,
     private leaderboardService: LeaderboardService,
     private transmissionService: TransmissionService,
-    private router: Router) {
+    private router: Router,
+    private routingStorageService: RoutingStorageService) {
 
     this.standings$ = timer(0, 30000)
       .pipe(
@@ -86,6 +88,11 @@ export class MainComponent implements OnInit {
 
   public navigateMyTransmissions() {
     this.navigate(`${Constants.Routing.BasicPaths.Transmission}/${Constants.Routing.TransmissionPaths.MyTransmissions}`);
+  }
+
+  public viewTransmission(transmission: Transmission) {
+    this.routingStorageService.storage = transmission;
+    this.navigate(`${Constants.Routing.BasicPaths.Transmission}/${Constants.Routing.TransmissionPaths.Live}`);
   }
 
   private navigate(url: string) {

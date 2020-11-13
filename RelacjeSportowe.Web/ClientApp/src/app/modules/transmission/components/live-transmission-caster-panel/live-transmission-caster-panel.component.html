@@ -1,1 +1,69 @@
-<p>live-transmission-caster-panel works!</p>
+<button class="transparent-button bordered-button w-100"
+        (click)="endTransmission()">
+  Zakończ transmisję
+</button>
+
+<form class="login-form w-100"
+      [formGroup]="addTransmissionEventForm"
+      (ngSubmit)="onSubmit()">
+  <app-modal-panel panelTitle="Dodawanie zdarzenia">
+    <app-form-input type="text"
+                    idPrefix="timeInfo"
+                    [formCtrl]="timeInfo"
+                    label="Minuta">
+      <div validation
+           *ngIf="submitted && timeInfo.errors"
+           class="invalid-feedback">
+        <div *ngIf="timeInfo.errors.required">Pole jest wymagane</div>
+      </div>
+    </app-form-input>
+
+    <div class="d-flex mt-3">
+      <span style='color: white; margin-right: 1rem;'>
+        Typ zdarzenia
+      </span>
+      <select [formControl]="transmissionEventTypeId">
+        <option *ngFor="let transmissionEventType of transmissionEventTypes$ | async"
+                [ngValue]="transmissionEventType.id">
+          {{transmissionEventType.value}}
+        </option>
+      </select>
+    </div>
+
+    <div class="mt-3">
+      <app-form-text-area idPrefix="description"
+                          [formCtrl]="description"
+                          label="Opis zdarzenia">
+      </app-form-text-area>
+    </div>
+
+    <div footer>
+      <button type="submit"
+              class="btn btn-success">
+        Dodaj
+      </button>
+    </div>
+  </app-modal-panel>
+</form>
+
+<img id="photoToSend"
+     [hidden]="!hasPhoto"
+     class="photo"
+     #photoToSend />
+<input type="file"
+       id="photoInput"
+       accept="image/*"
+       (input)="handlePhotoInput($event.target.files)"
+       style="display: none"
+       #photoInput />
+<button type="button"
+        class="btn-block btn-primary"
+        (click)="togglePhotoInput()">
+  Wybierz zdjęcie
+</button>
+
+<button type="button"
+        class="btn btn-lg btn-primary btn-block"
+        (click)="addEventWithPhoto()">
+  Dodaj do relacji
+</button>

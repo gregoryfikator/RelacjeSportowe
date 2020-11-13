@@ -1,1 +1,49 @@
-<p>live-transmission-panel works!</p>
+<div *ngIf="transmissionDetails"
+     class="color-white">
+  <div *ngIf="transmissionDetails.endDate"
+       class="text-center">
+    Transmisja zakończyła się: {{transmissionDetails.endDate | date:'dd.MM.yyyy HH:mm'}}
+  </div>
+  <div *ngIf="!transmissionDetails.endDate"
+       class="text-center">
+    Transmisja na żywo!
+  </div>
+
+  <h4>{{transmissionDetails.teamHome}} - {{transmissionDetails.teamAway}}</h4>
+  Początek spotkania: {{transmissionDetails.eventDate | date:'dd.MM.yyyy HH:mm'}}
+  <br />
+  Początek transmisji: {{transmissionDetails.startDate | date:'dd.MM.yyyy HH:mm'}}
+
+  <div *ngIf="!hasVoted"
+       class="d-flex rate-transmission mt-3">
+    <h5 class="mr-3">
+      Oceń transmisję:
+    </h5>
+    <button class="transparent-button bordered-button"
+            (click)="upvote()">
+      +1
+    </button>
+    <button class="transparent-button bordered-button"
+            (click)="downvote()">
+      -1
+    </button>
+  </div>
+</div>
+
+<table class="w-100 mt-3">
+  <thead>
+    <th>Minuta</th>
+    <th>Zdarzenie</th>
+    <th>Opis zdarzenia</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let transmissionEvent of transmissionEvents$ | async">
+      <td>{{transmissionEvent.timeInfo}}</td>
+      <td>{{transmissionEvent.transmissionEventType}}</td>
+      <td *ngIf="transmissionEvent.transmissionEventTypeId !== 22">{{transmissionEvent.description}}</td>
+      <td *ngIf="transmissionEvent.transmissionEventTypeId === 22">
+        <img [src]="transmissionEvent.description" />
+      </td>
+    </tr>
+  </tbody>
+</table>

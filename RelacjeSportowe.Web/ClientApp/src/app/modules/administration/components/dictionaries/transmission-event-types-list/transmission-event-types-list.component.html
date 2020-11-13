@@ -1,6 +1,9 @@
-<button class="transparent-button bordered-button" (click)="addEventType()">Dodaj typ zdarzenia</button>
+<button class="transparent-button bordered-button"
+        (click)="addEventType()">
+  Dodaj typ zdarzenia
+</button>
 
-<table>
+<table class="w-100 mt-3">
   <thead>
     <th>Typ zdarzenia</th>
     <th></th>
@@ -8,9 +11,14 @@
   <tbody>
     <tr *ngFor="let transmissionEventType of transmissionEventTypes$ | async">
       <td>{{transmissionEventType.value}}</td>
-      <td>
-        <button class="transparent-button bordered-button" (click)="editEventType(transmissionEventType)">Edytuj</button>
-        <button class="transparent-button bordered-button">Usuń</button>
+      <td class="d-flex">
+        <button class="transparent-button bordered-button"
+                (click)="editEventType(transmissionEventType)">
+          Edytuj
+        </button>
+        <button class="transparent-button bordered-button">
+          Usuń
+        </button>
       </td>
     </tr>
   </tbody>

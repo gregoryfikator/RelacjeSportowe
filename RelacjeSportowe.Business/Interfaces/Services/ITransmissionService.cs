@@ -11,6 +11,10 @@ namespace RelacjeSportowe.Business.Interfaces.Services
 
         Task<TransmissionEventDto> AddTransmissionEventAsync(AddTransmissionEventRequest request);
 
+        Task DeleteTransmissionAsync(DeleteTransmissionRequest request);
+
+        Task EndTransmissionAsync(EndTransmissionRequest request);
+
         IEnumerable<TransmissionDto> GetAllTransmissions();
 
         IEnumerable<TransmissionDto> GetAllLiveTransmissions();
@@ -23,6 +27,12 @@ namespace RelacjeSportowe.Business.Interfaces.Services
 
         Task<TransmissionDetailsDto> GetTransmissionAsync(int id);
 
+        Task<TransmissionEventDto> GetTransmissionEventAsync(int id);
+
+        Task<TransmissionDto> UpdateTransmissionAsync(UpdateTransmissionRequest request);
+
         Task<TransmissionEventDto> UpdateTransmissionEventAsync(UpdateTransmissionEventRequest request);
+
+        Task VoteTransmission(VoteTransmissionRequest request);
     }
 }

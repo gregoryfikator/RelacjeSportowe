@@ -13,8 +13,7 @@ namespace RelacjeSportowe.DataAccess.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Role)
-                .WithOne()
-                .HasForeignKey<User>(x => x.RoleId)
+                .WithMany(x => x.Users)
                 .IsRequired();
 
             builder.HasMany(x => x.Transmissions)

@@ -4,7 +4,9 @@ using RelacjeSportowe.Business.Interfaces.Providers;
 using RelacjeSportowe.Business.Interfaces.Services;
 using RelacjeSportowe.DataAccess.Dtos;
 using RelacjeSportowe.DataAccess.Dtos.Requests;
+using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,10 +29,15 @@ namespace RelacjeSportowe.Business.Services
             // validation of request
 
             var transmission = Mapper.Map<AddTransmissionRequest, Transmission>(request);
+            transmission.UserId = CurrentUser.Id;
 
             await AddAsync(transmission);
 
-            return Mapper.Map<Transmission, TransmissionDetailsDto>(transmission);
+            await Context.SaveChangesAsync();
+
+            var transmissionWithIncludes = await GetTransmissionAsync(transmission.Id);
+
+            return transmissionWithIncludes;
         }
 
         public async Task<TransmissionEventDto> AddTransmissionEventAsync(AddTransmissionEventRequest request)
@@ -41,7 +48,41 @@ namespace RelacjeSportowe.Business.Services
 
             await Context.TransmissionEvents.AddAsync(transmissionEvent);
 
-            return Mapper.Map<TransmissionEvent, TransmissionEventDto>(transmissionEvent);
+            await Context.SaveChangesAsync();
+
+            var transmissionEventWithIncludes = await GetTransmissionEventAsync(transmissionEvent.Id);
+
+            return transmissionEventWithIncludes;
+        }
+
+        public async Task DeleteTransmissionAsync(DeleteTransmissionRequest request)
+        {
+            var transmission = await GetByIdAsync(request.Id);
+
+            if (transmission.UserId != CurrentUser.Id && CurrentUser.AuthorizationRole != AuthorizationRole.Administrator)
+            {
+                // throw business logic exception
+                return;
+            }
+
+            await DeleteAsync(transmission);
+
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task EndTransmissionAsync(EndTransmissionRequest request)
+        {
+            var transmission = await GetByIdAsync(request.Id);
+
+            if (transmission.UserId != CurrentUser.Id && CurrentUser.AuthorizationRole == AuthorizationRole.User)
+            {
+                // throw business logic exception
+                return;
+            }
+
+            transmission.EndDate = DateTime.UtcNow;
+
+            await Context.SaveChangesAsync();
         }
 
         public IEnumerable<TransmissionDto> GetAllTransmissions()
@@ -49,7 +90,8 @@ namespace RelacjeSportowe.Business.Services
             var transmissions = GetAll(true)
                 .Include(x => x.User)
                 .OrderByDescending(x => x.EventDate)
-                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x));
+                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x))
+                .ToList();
 
             foreach (var transmission in transmissions)
             {
@@ -65,7 +107,8 @@ namespace RelacjeSportowe.Business.Services
                 .Include(x => x.User)
                 .Where(x => x.EndDate == null)
                 .OrderByDescending(x => x.EventDate)
-                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x));
+                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x))
+                .ToList();
 
             foreach (var transmission in transmissions)
             {
@@ -81,7 +124,8 @@ namespace RelacjeSportowe.Business.Services
                 .Include(x => x.User)
                 .Where(x => x.UserId == CurrentUser.Id)
                 .OrderByDescending(x => x.EventDate)
-                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x));
+                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x))
+                .ToList();
 
             foreach (var transmission in transmissions)
             {
@@ -97,7 +141,8 @@ namespace RelacjeSportowe.Business.Services
                 .Include(x => x.User)
                 .OrderByDescending(x => x.StartDate)
                 .Take(10)
-                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x));
+                .Select(x => Mapper.Map<Transmission, TransmissionDto>(x))
+                .ToList();
 
             foreach (var transmission in transmissions)
             {
@@ -111,9 +156,9 @@ namespace RelacjeSportowe.Business.Services
         {
             var transmissions = GetAll(true)
                 .Include(x => x.User)
-                .Where(x => x.EndDate != null)
+                .Where(x => x.EndDate.HasValue == false)
                 .Select(x => Mapper.Map<Transmission, TransmissionDto>(x))
-                .AsEnumerable();
+                .ToList();
 
             foreach (var transmission in transmissions)
             {
@@ -122,7 +167,8 @@ namespace RelacjeSportowe.Business.Services
 
             transmissions = transmissions
                 .OrderByDescending(x => x.ViewersCount)
-                .Take(10);
+                .Take(10)
+                .ToList();
 
             return transmissions;
         }
@@ -131,7 +177,30 @@ namespace RelacjeSportowe.Business.Services
         {
             var transmission = await Context.Transmissions
                 .Include(x => x.TransmissionEvents)
+                .ThenInclude(x => x.TransmissionEventType)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            return Mapper.Map<Transmission, TransmissionDetailsDto>(transmission);
+        }
+
+        public async Task<TransmissionEventDto> GetTransmissionEventAsync(int id)
+        {
+            var transmissionEvent = await Context.TransmissionEvents
+                .Include(x => x.TransmissionEventType)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return Mapper.Map<TransmissionEvent, TransmissionEventDto>(transmissionEvent);
+        }
+
+        public async Task<TransmissionDto> UpdateTransmissionAsync(UpdateTransmissionRequest request)
+        {
+            var transmission = await GetByIdAsync(request.Id);
+
+            // validation of request
+
+            var transmissionToUpdate = Mapper.Map<UpdateTransmissionRequest, Transmission>(request, transmission);
+
+            transmission = await UpdateAsync(transmissionToUpdate);
 
             return Mapper.Map<Transmission, TransmissionDetailsDto>(transmission);
         }
@@ -148,6 +217,17 @@ namespace RelacjeSportowe.Business.Services
             Context.TransmissionEvents.Update(transmissionEventToUpdate);
 
             return Mapper.Map<TransmissionEvent, TransmissionEventDto>(transmissionEventToUpdate);
+        }
+
+        public async Task VoteTransmission(VoteTransmissionRequest request)
+        {
+            var transmission = await Context.Transmissions
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            transmission.User.RatingPoints += request.Rating;
+
+            await Context.SaveChangesAsync();
         }
     }
 }

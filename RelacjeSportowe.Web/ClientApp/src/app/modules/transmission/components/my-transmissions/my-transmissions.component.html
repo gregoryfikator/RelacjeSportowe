@@ -1,1 +1,31 @@
-<p>my-transmissions works!</p>
+<table class="w-100">
+  <thead>
+    <th>Gospodarze</th>
+    <th>Goście</th>
+    <th>Data wydarzenia</th>
+    <th>Data utworzenia</th>
+    <th>Data zakończenia</th>
+    <th>Liczba widzów</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let transmission of transmissions$ | async">
+      <td>{{transmission.teamHome}}</td>
+      <td>{{transmission.teamAway}}</td>
+      <td>{{transmission.eventDate | date:'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{transmission.startDate | date:'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{transmission.endDate ? (transmission.endDate | date:'dd.MM.yyyy HH:mm') : 'trwa'}}</td>
+      <td>{{transmission.viewersCount}}</td>
+      <td class="d-flex">
+        <button class="transparent-button bordered-button"
+                (click)="updateTransmission(transmission)">
+          Edytuj
+        </button>
+        <button class="transparent-button bordered-button"
+                (click)="viewTransmission(transmission)">
+          Zobacz
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

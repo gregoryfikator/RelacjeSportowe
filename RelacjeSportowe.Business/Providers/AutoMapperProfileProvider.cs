@@ -4,6 +4,7 @@ using RelacjeSportowe.DataAccess.Dtos.Requests;
 using RelacjeSportowe.DataAccess.Enums;
 using RelacjeSportowe.DataAccess.Models;
 using System;
+using System.Collections.Generic;
 
 namespace RelacjeSportowe.Business.Providers
 {
@@ -35,9 +36,14 @@ namespace RelacjeSportowe.Business.Providers
             CreateMap<Transmission, TransmissionDto>()
                 .ForMember(x => x.Username, o => o.MapFrom(a => a.User.Username));
             CreateMap<Transmission, TransmissionDetailsDto>()
+                .ForMember(x => x.TransmissionEvents, o => o.MapFrom(a => a.TransmissionEvents))
                 .ForMember(x => x.Username, o => o.MapFrom(a => a.User.Username));
 
-            CreateMap<TransmissionEvent, TransmissionEventDto>();
+            CreateMap<AddTransmissionEventRequest, TransmissionEvent>();
+            CreateMap<UpdateTransmissionEventRequest, TransmissionEvent>();
+
+            CreateMap<TransmissionEvent, TransmissionEventDto>()
+                .ForMember(x => x.TransmissionEventType, o => o.MapFrom(a => a.TransmissionEventType.Value));
         }
     }
 }

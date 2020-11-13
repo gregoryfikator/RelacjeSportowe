@@ -15,6 +15,8 @@
     <Compile Remove="Data\Migrations\20201015011510_InitUsersAndRoles.Designer.cs" />
     <Compile Remove="Data\Migrations\20201015011752_InitUsersAndRoles.cs" />
     <Compile Remove="Data\Migrations\20201015011752_InitUsersAndRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201113091843_UpdateUserConfiguration.cs" />
+    <Compile Remove="Data\Migrations\20201113091843_UpdateUserConfiguration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,6 +8,7 @@ import { EditTransmissionEventTypeComponent } from './components/dictionaries/tr
 import { TransmissionEventTypesListComponent } from './components/dictionaries/transmission-event-types-list/transmission-event-types-list.component';
 import { ChangeUserRoleComponent } from './components/roles/change-user-role/change-user-role.component';
 import { UserRolesListComponent } from './components/roles/user-roles-list/user-roles-list.component';
+import { TransmissionsComponent } from './components/transmissions/transmissions.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,16 @@ const routes: Routes = [
             path: Constants.Routing.AdministrationPaths.ChangeUserRole,
             component: ChangeUserRoleComponent
           }
+        ]
+      },
+      {
+        path: Constants.Routing.AdministrationPaths.Transmissions,
+        children: [
+          {
+            path: Constants.Routing.BasicPaths.Empty,
+            component: TransmissionsComponent,
+            pathMatch: 'full'
+          },
         ]
       }
     ]

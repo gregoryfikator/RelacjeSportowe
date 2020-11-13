@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { Constants } from 'src/app/app.constants';
 import { LoginUserRequest } from 'src/app/models/dtos/requests/login-user-request';
@@ -34,6 +34,10 @@ export class UserService {
 
   public getCurrentUser$(): Subject<User> {
     return this.currentUser;
+  }
+
+  public getCurrentUser(): BehaviorSubject<User> {
+    return this.authorizationService.getCurrentUser();
   }
 
   public getUserById(id: number): Observable<any> {

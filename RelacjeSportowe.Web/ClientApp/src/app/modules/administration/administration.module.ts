@@ -10,6 +10,7 @@ import { AddTransmissionEventTypeComponent } from './components/dictionaries/tra
 import { EditTransmissionEventTypeComponent } from './components/dictionaries/transmission-event-type/edit-transmission-event-type/edit-transmission-event-type.component';
 import { UserRolesListComponent } from './components/roles/user-roles-list/user-roles-list.component';
 import { ChangeUserRoleComponent } from './components/roles/change-user-role/change-user-role.component';
+import { TransmissionsComponent } from './components/transmissions/transmissions.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ChangeUserRoleComponent } from './components/roles/change-user-role/cha
     AddTransmissionEventTypeComponent,
     EditTransmissionEventTypeComponent,
     UserRolesListComponent,
-    ChangeUserRoleComponent
+    ChangeUserRoleComponent,
+    TransmissionsComponent
   ],
   imports: [
     CommonModule,

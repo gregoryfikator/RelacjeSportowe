@@ -120,6 +120,7 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -167,8 +168,7 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("Email", "Username")
                         .IsUnique();
@@ -188,7 +188,7 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
             modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.TransmissionEvent", b =>
                 {
                     b.HasOne("RelacjeSportowe.DataAccess.Models.TransmissionEventType", "TransmissionEventType")
-                        .WithMany()
+                        .WithMany("TrasmissionEvents")
                         .HasForeignKey("TransmissionEventTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -203,8 +203,8 @@ namespace RelacjeSportowe.DataAccess.Data.Migrations
             modelBuilder.Entity("RelacjeSportowe.DataAccess.Models.User", b =>
                 {
                     b.HasOne("RelacjeSportowe.DataAccess.Models.Role", "Role")
-                        .WithOne()
-                        .HasForeignKey("RelacjeSportowe.DataAccess.Models.User", "RoleId")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

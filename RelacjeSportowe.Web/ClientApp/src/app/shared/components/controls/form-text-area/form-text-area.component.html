@@ -1,0 +1,11 @@
+<div class="input-with-label">
+  <textarea [id]="id"
+            class="form-control"
+            [formControl]="formCtrl"
+            placeholder="{{label}}"
+            [required]="required"
+            spellcheck="false"
+            autocomplete="off">
+  </textarea>
+  <ng-content select="[validation]"></ng-content>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AddTransmissionEventRequest, UpdateTransmissionEventRequest } from 'src/app/models/dtos/requests/transmission-event-request';
-import { TransmissionHubService } from 'src/app/shared/services/transmission-hub.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-transmission-dashboard',
@@ -9,34 +9,27 @@ import { TransmissionHubService } from 'src/app/shared/services/transmission-hub
 })
 export class TransmissionDashboardComponent implements OnInit {
 
-  constructor(private transmissionHubService: TransmissionHubService) { }
+  constructor(private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
-  public startConnection() {
-    this.transmissionHubService.startConnection();
+  public routeToMyTransmissions() {
+    this.routeTo(Constants.Routing.TransmissionPaths.MyTransmissions);
   }
 
-  public sendTransmissionEvent() {
-    const transmissionEvent = new AddTransmissionEventRequest({});
-    this.transmissionHubService.sendTransmissionEvent(transmissionEvent);
+  public routeToAllTransmissions() {
+    this.routeTo(Constants.Routing.TransmissionPaths.AllTransmissions);
   }
 
-  public sendTransmissionEventUpdate() {
-    const transmissionEvent = new UpdateTransmissionEventRequest({});
-    this.transmissionHubService.sendTransmissionEvent(transmissionEvent);
+  public routeToAddTransmission() {
+    this.routeTo(Constants.Routing.TransmissionPaths.AddTransmission); 
   }
 
-  public addToGroup() {
-    this.transmissionHubService.subscribeTransmission(0);
-  }
-
-  public removeFromGroup() {
-    this.transmissionHubService.unsubscribeTransmission(0);
-  }
-
-  public closeConnection() {
-    this.transmissionHubService.closeConnection();
+  private routeTo(routingTarget: string) {
+    this.router.navigate([routingTarget], {
+      relativeTo: this.route
+    });
   }
 }

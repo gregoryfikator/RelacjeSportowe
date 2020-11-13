@@ -1,0 +1,24 @@
+@import (reference) "../../../../../styles.less";
+
+button {
+  display: flex;
+  width: 100%;
+  margin: 0 .25rem;
+  justify-content: center;
+  border: 1px solid @basic-white;
+  border-radius: 5px;
+  color: @basic-white;
+
+  transition: border-color 0.25s ease-in-out, color 0.25s ease-in-out;
+
+  &:hover {
+    border: 1px solid @light-green-olive;
+    color: @basic-yellow;
+    cursor: pointer;
+  }
+}
+
+.photo {
+  width: 10rem;
+  height: 10rem;
+}

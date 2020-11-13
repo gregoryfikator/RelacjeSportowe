@@ -1,1 +1,61 @@
-<p>add-transmission works!</p>
+<form class="login-form w-100"
+      [formGroup]="addTransmissionForm"
+      (ngSubmit)="onSubmit()">
+  <app-modal-panel panelTitle="Dodawanie transmisji">
+
+    <app-form-input type="text"
+                    idPrefix="teamHome"
+                    [formCtrl]="teamHome"
+                    label="Gospodarze">
+      <div validation
+           *ngIf="submitted && teamHome.errors"
+           class="invalid-feedback">
+        <div *ngIf="teamHome.errors.required">Pole jest wymagane</div>
+      </div>
+    </app-form-input>
+
+    <app-form-input type="text"
+                    class="pt-3"
+                    idPrefix="teamAway"
+                    [formCtrl]="teamAway"
+                    label="Goście">
+      <div validation
+           *ngIf="submitted && teamAway.errors"
+           class="invalid-feedback">
+        <div *ngIf="teamAway.errors.required">Pole jest wymagane</div>
+      </div>
+    </app-form-input>
+
+    <app-form-input type="date"
+                    class="pt-3"
+                    idPrefix="eventDate"
+                    [formCtrl]="eventDate"
+                    label="Data wydarzenia">
+      <div validation
+           *ngIf="submitted && eventDate.errors"
+           class="invalid-feedback">
+        <div *ngIf="eventDate.errors.required">Pole jest wymagane</div>
+      </div>
+    </app-form-input>
+
+    <app-form-input type="time"
+                    class="pt-3"
+                    idPrefix="eventTime"
+                    [formCtrl]="eventTime"
+                    label="Godzina wydarzenia">
+      <div validation
+           *ngIf="submitted && eventTime.errors"
+           class="invalid-feedback">
+        <div *ngIf="eventTime.errors.required">Pole jest wymagane</div>
+      </div>
+    </app-form-input>
+
+    <div footer>
+      <button type="submit"
+              class="btn btn-success">
+        Dodaj
+      </button>
+    </div>
+  </app-modal-panel>
+
+</form>

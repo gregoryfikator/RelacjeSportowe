@@ -25,7 +25,7 @@ export class Constants {
       public static readonly AllTransmissions = "AllTransmissions";
       public static readonly Dashboard = "Dashboard";
       public static readonly EditTransmission = "EditTransmission";
-      public static readonly LiveTransmission = "LiveTransmission";
+      public static readonly Live = "Live";
       public static readonly MyTransmissions = "MyTransmissions";
     }
 
@@ -62,12 +62,19 @@ export class Constants {
     }
 
     public static readonly Transmission = class {
+      public static readonly AddTransmission = "Transmission/AddTransmission";
       public static readonly AddTransmissionEventType = "Transmission/AddTransmissionEventType";
-      public static readonly EditTransmissionEventType = "Transmission/EditTransmissionEventType";
+      public static readonly DeleteTransmission = "Transmission/DeleteTransmission";
+      public static readonly EndTransmission = "Transmission/EndTransmission";
+      public static readonly GetAllTransmissions = "Transmission/GetAllTransmissions";
       public static readonly GetMyTransmissions = "Transmission/GetMyTransmissions";
       public static readonly GetNewestTransmissions = "Transmission/GetNewestTransmissions";
       public static readonly GetTopTransmissions = "Transmission/GetTopTransmissions";
+      public static readonly GetTransmission = "Transmission/GetTransmission";
       public static readonly GetTransmissionEventTypes = "Transmission/GetTransmissionEventTypes";
+      public static readonly UpdateTransmission = "Transmission/UpdateTransmission";
+      public static readonly UpdateTransmissionEventType = "Transmission/UpdateTransmissionEventType";
+      public static readonly VoteTransmission = "Transmission/VoteTransmission";
     }
   }
 

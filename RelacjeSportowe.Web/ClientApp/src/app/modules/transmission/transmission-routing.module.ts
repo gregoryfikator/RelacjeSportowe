@@ -51,7 +51,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: Constants.Routing.TransmissionPaths.LiveTransmission,
+        path: Constants.Routing.TransmissionPaths.Live,
         children: [
           {
             path: Constants.Routing.BasicPaths.Empty,
@@ -66,6 +66,16 @@ const routes: Routes = [
           {
             path: Constants.Routing.BasicPaths.Empty,
             component: MyTransmissionsComponent,
+            pathMatch: 'full'
+          }
+        ]
+      },
+      {
+        path: Constants.Routing.TransmissionPaths.AllTransmissions,
+        children: [
+          {
+            path: Constants.Routing.BasicPaths.Empty,
+            component: AllTransmissionsComponent,
             pathMatch: 'full'
           }
         ]

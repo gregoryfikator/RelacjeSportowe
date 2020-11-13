@@ -1,4 +1,4 @@
-<table>
+<table class="w-100">
   <thead>
     <th>Użytkownik</th>
     <th>Rola</th>
@@ -9,8 +9,8 @@
     <tr *ngFor="let user of users$ | async">
       <td>{{user.username}}</td>
       <td>{{user.role}}</td>
-      <td>{{user.isActive}}</td>
-      <td>
+      <td>{{user.isActive ? 'Tak' : 'Nie'}}</td>
+      <td class="d-flex">
         <button class="transparent-button bordered-button" (click)="editUserRole(user)">Zmień rolę</button>
         <button *ngIf="user.isActive" class="transparent-button bordered-button" (click)="lockUserAccount(user.id)">Zablokuj</button>
         <button *ngIf="!user.isActive" class="transparent-button bordered-button" (click)="unlockUserAccount(user.id)">Odblokuj</button>

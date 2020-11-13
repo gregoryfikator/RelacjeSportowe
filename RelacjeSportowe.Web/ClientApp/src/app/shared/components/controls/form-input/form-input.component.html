@@ -2,11 +2,13 @@
   <input [id]="id"
          class="form-control"
          [formControl]="formCtrl"
-         [type]="type"
+         [type]="currentType"
          placeholder="{{label}}"
          [required]="required"
          spellcheck="false"
-         autocomplete="off" />
+         autocomplete="off"
+         (focus)="onFocus($event)"
+         (blur)="onBlur($event)" />
   <label [for]="id">
     {{ label }}
   </label>
